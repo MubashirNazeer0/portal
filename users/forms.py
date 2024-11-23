@@ -166,3 +166,15 @@ class StudentAlumniSearchForm(forms.Form):
     event_subject = forms.CharField(max_length=40, required=False, label='Event Subject')
     event_date = forms.DateField(required=False, widget=forms.SelectDateWidget(years=range(1984, datetime.date.today().year + 1)), label='Event Date')
     venue = forms.CharField(max_length=200, required=False, label='Event Venue')
+    
+    
+from django.contrib.auth.forms import AuthenticationForm
+
+    
+class CustomAuthenticationForm(AuthenticationForm):
+    ROLE_CHOICES = [
+        ('student', 'Student'),
+        ('alumni', 'Alumni'),
+        ('employer', 'Employer'),
+    ]
+    role = forms.ChoiceField(choices=ROLE_CHOICES, required=True, label="Role")
