@@ -39,6 +39,7 @@ DEBUG=True
 # DATABASE_PORT='5432'
 
 ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['.onrender.com', 'www.cba-rz7p.onrender.com/']
 
 # Application definition
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -149,7 +150,7 @@ USE_TZ = True
 def show_toolbar(request):
     return False
 
-DEBUG = False
+# DEBUG = False
 DEBUG_TOOLBAR_CONFIG = {
     "SHOW_TOOLBAR_CALLBACK": show_toolbar,
 }
@@ -157,12 +158,17 @@ DEBUG_TOOLBAR_CONFIG = {
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
 
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR, "static"),
 #     '/var/www/static/',
 # ]
+# Static files (CSS, JavaScript, images)
+STATIC_URL = '/static/'
+
+# Location where collectstatic will store static files
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_URL = 'login'
