@@ -1,0 +1,32 @@
+{% extends "dash/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    {% if view_user %}
+<div class="row justify-content-md-center">
+<div class="col-md-5">
+<div class="card text-center">
+  <img class="rounded-circle account-img mx-auto" src="{{ view_user.image.url }}" alt="Profile Picture">
+  <h1>{{view_user.user.username}}</h1>
+  <p>Email id: {{ view_user.user.email }}</p>
+    {% if view_user.dept %}
+        <p>Department: {{ view_user.dept }} </p>
+    {% endif %}
+    {% if view_user.registration_number %}
+        <p>Registration Number: {{ view_user.registration_number}}</p>
+    {% endif %}
+    <p>Passout Year: {{ view_user.passout_year }}</p>
+    {% if view_user.job_role %}
+        <p>Working as {{ view_user.job_role }},
+    {% endif %}
+    {% if view_user.company %}
+            {{view_user.company}}<br/>
+    {% endif %}
+    {% if view_user.work_location %}
+        {{ view_user.work_location }}</p>
+    {% endif %}
+
+</div>
+    {% endif %}
+</div>
+</div>
+{% endblock content %}

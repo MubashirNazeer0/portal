@@ -1,0 +1,48 @@
+{% extends 'dash/base.html' %}
+
+{% block content %}
+
+<nav class="navbar navbar-expand-md navbar-light justify-content-between mb-2" style="background-color: #FFD700;">
+      <a class="navbar-brand" href="{% url 'view_feedback' %}">Feedback Type</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#FeedbackTarget" aria-controls="FeedbackTarget" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" role="group" id="FeedbackTarget">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link btn-lg" role="button" aria-pressed="true" href="{% url 'view_cat_feedback' 'GEN' %}">View Generic Feedback<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn-lg" role="button" aria-pressed="false" href="{% url 'view_cat_feedback' 'CUR' %}">View Curriculum Feedback</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn-lg" role="button" aria-pressed="false" href="{% url 'view_cat_feedback' 'INF' %}">View Infrastructure Feedback</a>
+          </li>
+        </ul>
+          <a href="{% url 'clear_feedback' %}"  class="nav-link btn-lg" >Clear All Feedback</a>
+</nav>
+<main role="main" class="main">
+{% if feedback %}
+{% for entry in feedback %}
+<article class="media content-section">
+    <div class="media-body" >
+        <div class="article-metadata">
+            <a class="mr-2" href="{% url 'user_profile' entry.user.user.id %}">{{ entry.user.user.username }}</a>
+            <small class="text-muted">{{ entry.date_added|date:"F d, Y" }}</small>
+             <small class=" float-right
+                {% if entry.category == 'GEN' %} text-dark
+                {% elif entry.category == 'CUR' %} text-success
+                {% elif entry.category == 'INF' %} text-warning
+                {% endif %}">CATEGORY : {{entry.category}}</small>
+        </div>
+            {{ entry.text }}
+    </div>
+</article>
+{% endfor %}
+</main>
+{% endif %}
+<div class="main">
+    <a href="{% url 'view_feedback' %}" class="btn btn-block btn-outline-success">View All/Home</a>
+</div>
+{% endblock %}

@@ -1,0 +1,233 @@
+{% extends "dash/base2.html" %}
+{% block content %}
+<title>Kuwait University Welcome</title>
+
+<!-- Navbar -->
+<style>.button-container {
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    margin: 0 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-primary {
+    background-color: #1a237e;
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #283593;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary {
+    background-color: #f5f5f5;
+    color: #1a237e;
+    border: 1px solid #1a237e;
+}
+
+.btn-secondary:hover {
+    background-color: #e0e0e0;
+    color: #283593;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+} 
+</style>
+<!-- Welcome Section -->
+<div class="welcome-section">
+    <div class="welcome-content">
+        <h2>Welcome to Kuwait University</h2>
+        <p>Kuwait University is the national institution of higher education in Kuwait. We offer a range of programs and research opportunities across various disciplines. Our aim is to provide a transformative educational experience for students that combines academic rigor with cultural richness.</p>
+        <div class="button-container">
+            <a class="btn btn-primary" href="{% url 'login' %}">Login</a>
+            <a class="btn btn-secondary" href="{% url 'register' %}">Register</a>
+        </div>
+    </div>
+
+</div>
+
+<!-- FAQ Section -->
+
+<!-- Images Section --> 
+<div class="images-section">
+    <h3>Our Campus and Events</h3>
+
+    <!-- Advertisements Grid -->
+    <div class="ads-container">
+        <div class="row">
+            {% for ad in advertisements %}
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="card">
+                        <img src="{{ ad.image.url }}" class="card-img-top ad-image" alt="Advertisement Image">
+                    </div>
+                </div>
+            {% empty %}
+                <p>No advertisements available at the moment.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- FAQ Section -->
+<div class="faq-section">
+    <h3>Frequently Asked Questions</h3>
+    <div class="faq-content">
+        <p><strong>Q1:</strong> What are the conditions for field registration?</p>
+        <p><strong>A:</strong> The student must have completed more than 90 units.</p>
+        
+        <p><strong>Q2:</strong> What is the required rate for the field?</p>
+        <p><strong>A:</strong> A GPA of 2.2 and above is required.</p>
+        
+        <p><strong>Q3:</strong> How many units are needed to register for the field?</p>
+        <p><strong>A:</strong> 90 units and above.</p>
+        
+        <p><strong>Q4:</strong> How many hours is the field training?</p>
+        <p><strong>A:</strong> 4 hours a day.</p>
+        
+        <p><strong>Q5:</strong> What are the field training days for the first and second semesters?</p>
+        <p><strong>A:</strong> Sunday, Tuesday, and Thursday.</p>
+        
+        <p><strong>Q6:</strong> What are the field training days in the summer semester?</p>
+        <p><strong>A:</strong> All days of the week.</p>
+    </div>
+    
+</div>
+
+<!-- Bootstrap CSS and JS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<style>
+    .welcome-section {
+        background-image: url('media/about_us.jpg'); /* Replace with your image path */
+        background-size: cover;
+        background-position: center;
+        height: 500px; /* Adjust height as needed */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        text-align: center;
+        {% comment %} padding: 0px; {% endcomment %}
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Add shadow for depth */
+        animation: fadeIn 2s ease-in-out; /* Fade-in animation */
+    }
+
+    .welcome-content {
+        max-width: 1200px;
+        background-color: rgba(0, 0, 0, 0.4 ); /* Semi-transparent background to enhance text readability */
+        padding: 30px;
+        border-radius: 10px;
+    }
+
+    .welcome-section h2 {
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: white;
+    }
+    
+    .welcome-section p {
+        font-size: 18px;
+        line-height: 1.6;
+        color: white;
+    }
+    /* Fade-in Animation */
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
+    .images-section, .faq-section {
+        width: 80%; /* Reduce the width */
+        margin: 0 auto; /* Center-align */
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    .images-section {
+        margin-bottom: 20px;
+    }
+
+    .faq-section {
+        background-color: #f5f5f5;
+        padding: 15px;
+        border-radius: 5px;
+        max-height: 250px; /* Maximum height for scroll */
+        overflow-y: auto; /* Enable scroll */
+    }
+
+    .ads-container {
+        max-height: 600px; /* Adjust the height as needed */
+        overflow-y: auto; /* Enable scroll when content exceeds the container height */
+    }
+
+    /* Card Styles */
+    .card {
+        margin: 10px;
+        border-radius: 8px;
+    }
+
+    .card-img-top {
+        width: 100%; /* Ensure the image takes up the full width of the card */
+        height: auto; /* Automatically adjust the height based on the aspect ratio */
+        max-height: 991px; /* Maximum height to maintain the aspect ratio */
+        object-fit: contain; /* Maintain the aspect ratio */
+        border-radius: 8px; /* Ensure the image corners are rounded like the card */
+    }
+
+    /* Card layout for small screens */
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .col-md-4 {
+        flex: 1 0 33%; /* 3 columns on medium and larger screens */
+    }
+
+    .col-sm-6 {
+        flex: 1 0 50%; /* 2 columns on smaller screens */
+    }
+
+    .navbar {
+        background-color: #1a237e;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: white;
+    }
+
+    .navbar button {
+        margin-left: 10px;
+        padding: 8px 16px;
+        background-color: #0d47a1;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .navbar button:hover {
+        background-color: #1565c0;
+    }
+
+    .footer {
+        background-color: #1a237e;
+        color: white;
+        text-align: center;
+        padding: 10px;
+    }
+</style>
+
+{% endblock %}

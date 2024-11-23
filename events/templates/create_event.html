@@ -1,0 +1,32 @@
+{% extends 'dash/base.html' %}
+{% block title %}Event Form{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="row justify-content-md-center">
+    <div class="col-md-5">
+        <div class="content-section">
+            {% if user_logged.is_authenticated %}
+            <form action="{% url 'events' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Event</legend>
+                </fieldset>
+
+                {% if event_id %}
+                    <input type="hidden" name="event_id" value="{{ event_id }}"/>
+                {% endif %}
+
+                <div class="form-row">
+                    <div class="form-group">
+                        {{ form }}
+                    </div>
+                </div>
+
+                <!-- Add Submit Button -->
+                <input type="submit" value="Submit" class="btn btn-primary mt-2">
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'dash/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="row justify-content-md-center">
+<div class="col-md-5">
+ <div class="content-section">
+    <form action="{% url 'feedback_home' %}"  method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Feedback</legend>
+        </fieldset>
+
+        <div class="form-row">
+            <div class="form-group">
+                {{ form.category}}
+            </div>
+        </div>
+        <div class="form-row">
+            <div  class="form-group col-md-8" >
+                {{ form.text}}
+                <div id="textarea_feedback" class="col-md-3 blockquote-footer float-right"></div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-8">
+                {{ form.email}}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-8">
+                {{ form.username}}
+            </div>
+        </div>
+        <div class="form-group">
+              <input class="btn btn-outline-info" type="submit" value="Submit" />
+        </div>
+    </form>
+ </div>
+</div>
+</div>
+<script type="'text/javascript">
+    function textCounter(field,countfield,maxLimit)
+    {
+        if ( field.value.length > maxLimit )
+        {
+            field.value = field.value.substring( 0, maxLimit );
+            return false;
+        }
+        else
+        {
+            countfield.value = maxLimit - field.value.length;
+        }
+    }
+</script>
+<script>
+    jQuery(document).ready(function() {
+        var text_max = 400;
+        jQuery('#textarea_feedback').html(text_max + '/'+ text_max );
+        jQuery('#id_text').keyup(function() {
+            var text_length = jQuery('#id_text').val().length;
+            var text_remaining = text_max - text_length;
+            jQuery('#textarea_feedback').html(text_remaining + '/'+text_max );
+        });
+    });
+</script>
+{% endblock %}

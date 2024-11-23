@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qatar University Welcome</title>
+    <style>
+        /* Add styling to give structure and a clean appearance */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #1a237e;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        .navbar button {
+            margin-left: 10px;
+            padding: 8px 16px;
+            background-color: #0d47a1;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .navbar button:hover {
+            background-color: #1565c0;
+        }
+        .welcome-section, .faq-section, .images-section, .footer {
+            padding: 20px;
+            margin: 20px;
+        }
+        .faq-section, .images-section {
+            max-height: 200px;
+            overflow-y: auto;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .footer {
+            background-color: #1a237e;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1>Qatar University</h1>
+        <div>
+            <button onclick="window.location.href='/signup'">Signup</button>
+            <button onclick="window.location.href='/login'">Login</button>
+        </div>
+    </div>
+
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+        <h2>Welcome to Qatar University</h2>
+        <p>Qatar University is the national institution of higher education in Qatar. We offer a range of programs and research opportunities across various disciplines. Our aim is to provide a transformative educational experience for students that combines academic rigor with cultural richness.</p>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="faq-section">
+        <h3>Frequently Asked Questions</h3>
+        <div>
+            <p><strong>Q1:</strong> What programs does Qatar University offer?</p>
+            <p><strong>A:</strong> We offer undergraduate, graduate, and PhD programs across various fields.</p>
+            <p><strong>Q2:</strong> How can I apply?</p>
+            <p><strong>A:</strong> You can apply online through our admissions portal.</p>
+            <p><strong>Q3:</strong> What is the campus culture like?</p>
+            <p><strong>A:</strong> Our campus is vibrant, with a focus on diversity, inclusion, and community engagement.</p>
+            <!-- Add more FAQs as needed -->
+        </div>
+    </div>
+
+    <!-- Images Section -->
+    <div class="images-section">
+        <h3>Our Campus and Events</h3>
+        <p>[Placeholder for images - to be implemented]</p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2024 Qatar University. All Rights Reserved.</p>
+    </div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} {% extends "dash/base.html" %}
+{% block content %}
+<div class="row justify-content-md-center">
+<div class="col-md-5">
+<h2>You have been Logged out</h2> 
+<div class="border-top pt-3">
+    <small class="text-muted">
+        Already Have An Account? <a href="{% url 'login'%}">Log in again</a>
+    </small>
+</div>
+</div>
+</div>
+{% endblock content %} {% endcomment %}

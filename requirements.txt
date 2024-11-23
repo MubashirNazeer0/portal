@@ -1,0 +1,12 @@
+django-debug-toolbar
+django-environ
+django
+psycopg2
+django-crispy-forms
+Pillow
+django-mailgun
+django-mathfilters
+requests
+djangorestframework
+markdown
+django-filter

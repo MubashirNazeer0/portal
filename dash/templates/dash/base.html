@@ -1,0 +1,273 @@
+    {% load static %}
+
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- jQuery and Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{% static 'dash/main.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <title>{% if title %}{{ title }}{% else %}CBA Network{% endif %}</title>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-md navbar-dark custom-navbar">
+            <a class="navbar-brand" href="/">
+                <img src="{% static 'logo.jpg' %}" alt="CBA Logo" style="height: 40px;"> <!-- Adjust height as needed -->
+            </a>
+            <a class="navbar-brand" href="/">CBA</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'dash-home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'advertisement_list' %}">Advertisements</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'view_events' %}">Training Course</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'dash-about' %}">About</a>
+                    </li>
+                    {% if user.is_superuser %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'view_feedback' %}">Feedback</a>
+                    </li>
+                    {% endif %}
+                </ul>
+
+                {% if user.is_authenticated %}
+                <div class="navbar-nav ml-auto d-flex align-items-center">
+                    <!-- Search Button -->
+<!-- Search Button and Dropdown -->
+<button class="btn btn-outline-light ml-1" type="button" id="searchToggle">Search</button>
+<div id="searchForm" class="dropdown-menu dropdown-menu-right" style="display: none; backdrop-filter: blur(5px);">
+    <form action="{% url 'search-users' %}" method="GET">
+        {% comment %} <input class="form-control" value="{{ request.GET.query }}"> {% endcomment %}
+
+        {% if user.profile.role == 'employer' %}
+        <input class="form-control ml-2" type="text" name="cgpa" placeholder="CGPA" value="{{ request.GET.cgpa }}">
+        <select class="form-control ml-2" name="dept">
+            <option value="">Department</option>
+            {% for value, label in user.profile.DEPT_CHOICES %}
+                <option value="{{ value }}" {% if request.GET.dept == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+        <input class="form-control ml-2" type="text" name="current_job" placeholder="Current Job" value="{{ request.GET.current_job }}">
+        <input class="form-control ml-2" type="text" name="current_company" placeholder="Current Company" value="{{ request.GET.current_company }}">
+        <input class="form-control ml-2" type="text" name="roll_no" placeholder="Roll No" value="{{ request.GET.roll_no }}">
+        <button class="btn btn-outline-light ml-1" type="submit">Search</button>
+        {% endif %}
+
+        {% if user.profile.role == 'student' or user.profile.role == 'alumni' %}
+        <input class="form-control ml-2" type="text" name="event_subject" placeholder="Event Subject" value="{{ request.GET.event_subject }}">
+        <input class="form-control ml-2" type="date" name="event_date" value="{{ request.GET.event_date }}">
+        <input class="form-control ml-2" type="text" name="venue" placeholder="Event Venue" value="{{ request.GET.venue }}">
+        <button class="btn btn-outline-light ml-1" type="submit">Search</button>
+        {% endif %}
+    </form>
+</div>
+
+                    <!-- Profile Icon with Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle profile-icon" href="#" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user-circle fa-lg"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
+                            <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                            <a class="dropdown-item" href="{% url 'update_password' %}">Settings</a>
+                            {% if user.is_superuser %}
+                            <a class="dropdown-item" href="{% url 'manage_pending_profiles' %}">Pending Profiles</a>
+                            <a class="dropdown-item " href="{% url 'add_advertisement' %}">Add Advertisement</a>
+                            <a class="dropdown-item" href="{% url 'post-create' %}">Add Post</a>
+                            <a class="dropdown-item " href="{% url 'events' %}">Add Training Course</a>
+                            <a class="dropdown-item " href="{% url 'add_posters' %}">Add Poster Day</a>
+                            {% endif %}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                        </div>
+                    </li>
+                </div>
+                {% else %}
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                    </li>
+                </ul>
+                {% endif %}
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-5">
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} ">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            {% block content %}{% endblock %}
+        </div>
+
+        <!-- Optional JavaScript -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+        <footer>
+            <div class="footer-content">
+                <a href="tel:24988625" title="Call" class="footer-icon"><i class="fas fa-phone"></i></a>
+                <a href="mailto:Osta@ku.edu.kw" title="Email" class="footer-icon"><i class="fas fa-envelope"></i></a>
+                <a href="https://instagram.com/osta_cba" target="_blank" title="Instagram" class="footer-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" title="Twitter" class="footer-icon" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+            </div>
+        </footer>
+
+        <script>
+            // Toggle search form visibility on button click
+            document.getElementById('searchToggle').addEventListener('click', function() {
+                var searchForm = document.getElementById('searchForm');
+                searchForm.style.display = (searchForm.style.display === 'none' || searchForm.style.display === '') ? 'block' : 'none';
+            });
+        </script>
+    </body>
+
+    <style>
+        /* Navbar and Footer Styling */
+
+        
+        .custom-navbar, footer {
+            background-color: #040a45; /* Dark blue color */
+            background-image: linear-gradient(135deg, #040a45, #040a45);
+            padding: 0.2rem 1rem; /* Reduced height */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .custom-navbar .navbar-brand {
+            font-weight: bold;
+            color: #f8f9fa;
+        }
+        
+        .custom-navbar .navbar-nav .nav-link {
+            color: #f8f9fa;
+            padding: 0.3rem 0.8rem; /* Smaller padding for less height */
+            transition: color 0.3s, background-color 0.3s;
+        }
+        
+        .custom-navbar .navbar-nav .nav-link:hover {
+            color: #ffffff; /* Change hover color to white */
+            background-color: #3949ab;
+            border-radius: 4px;
+        }
+        
+        /* Profile Icon Styling */
+        .profile-icon {
+            color: #f8f3fa;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .profile-icon:hover {
+            color: #3949ab;
+        }
+        /* Search Dropdown Styling */
+        #searchForm {
+            backdrop-filter: blur(8px); /* Add blur effect */
+            background-color: #040a45; /* Slightly dark background with transparency */
+            border-radius: 30px; /* Rounded corners */
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Shadow to enhance the dropdown */
+            max-width: 400px; /* Limit the width */
+            overflow: hidden; /* Prevent scrollbars */
+        }
+    
+        /* Styling for inputs and buttons within the dropdown */
+        #searchForm .form-control {
+            background-color: #3949ab;
+            border: none;
+            color: #fff;
+            border-radius: 12px;
+            margin-bottom: 1px;
+        }
+
+
+        
+    
+        #searchForm .form-control::placeholder {
+            color: #f8f9fa;
+        }
+    
+        #searchForm .btn-outline-light {
+            border-color: #f8f9fa;
+            color: #f8f9fa;
+            transition: background-color 0.3s, color 0.3s;
+            padding: 0.5rem 1rem;
+            height: 40px;
+            
+        }
+    
+        #searchForm .btn-outline-light:hover {
+            background-color:#040a45;
+            color: #ffffff;
+        }
+        /* Ensure the page takes up at least the full viewport height */
+        html, body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+        }
+        
+        /* Main content area should expand to fill available space */
+        .container-fluid {
+            flex: 1;
+        }
+        
+        footer {
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            background-color: #040a45; /* Dark blue color */
+            color: white;
+            text-align: center;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px; /* Adjust spacing between icons if needed */
+        }
+        
+        .footer-icon i {
+            font-size: 24px; /* Customize the size as needed */
+            margin: 0 8px;
+            color: #f8f9fa;
+        }
+        
+        .footer-icon i:hover {
+            color: #3949ab /* Change color on hover */
+        }
+        {% comment %} /* Footer Styling */
+        footer {
+            position: fixed;
+            bottom: 0;
+            height: 30px;
+            text-align: center;
+            width: 100%;
+            color: #fff;
+            padding: 0.2rem; /* Reduced padding for smaller height */
+            font-size: 5px;
+        } {% endcomment %}
+    </style>

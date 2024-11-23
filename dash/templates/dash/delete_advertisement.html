@@ -1,0 +1,17 @@
+{% extends "dash/base.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Delete Advertisement</legend>
+                <h2>Are you sure you want to delete this advertisement?</h2>
+                <img src="{{ advertisement.image.url }}" alt="Advertisement Image" width="200">
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-danger" type="submit">Yes, Delete</button>
+                <a class="btn btn-outline-secondary" href="{% url 'advertisement_list' %}">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

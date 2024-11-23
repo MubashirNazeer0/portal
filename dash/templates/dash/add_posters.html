@@ -1,0 +1,14 @@
+<!-- add_advertisement.html -->
+{% extends 'dash/base.html' %}
+
+{% block content %}
+  <div class="content-section">
+    <h2>Add Poster Day</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}  <!-- Render the form fields -->
+      <button type="submit" class="btn btn-primary">Add Poster</button>
+    </form>
+  </div>
+{% endblock %}

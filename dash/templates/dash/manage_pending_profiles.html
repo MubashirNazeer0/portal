@@ -1,0 +1,40 @@
+{% extends "dash/base.html" %}
+{% block content %}
+    <div class="content-section">
+        <h2>Manage Pending User Profiles</h2>
+        
+        <!-- Test to check if template is rendering -->
+
+        {% if pending_profiles %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Department</th>
+                        <th>Registration Number</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for profile in pending_profiles %}
+                    <tr>
+                        <td>{{ profile.user.username }}</td>
+                        <td>{{ profile.dept }}</td>
+                        <td>{{ profile.registration_number }}</td>
+                        <td>
+                            <form method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_id" value="{{ profile.id }}">
+                                <button type="submit" name="action" value="approve" class="btn btn-success">Approve</button>
+                                <button type="submit" name="action" value="disapprove" class="btn btn-danger">Reject</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No pending profiles.</p>
+        {% endif %}
+    </div>
+{% endblock %}
