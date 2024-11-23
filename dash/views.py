@@ -17,7 +17,6 @@ from users.forms import EmployerSearchForm, StudentAlumniSearchForm
 # Create your views here.
 def welcome(request):
     advertisements = Advertisement.objects.all()
-    # print(advertisements)
     return render(request, 'users/welcome.html', {'advertisements': advertisements})
 
 def home(request):
