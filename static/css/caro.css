@@ -39,6 +39,18 @@
 }
 
 
+.service-item i {
+    font-size: 2rem; /* Adjust icon size on smaller screens */
+}
+
+@media (max-width: 576px) {
+    .service-item i {
+        font-size: 1.5rem;
+    }
+}
+
+
+
 
 
 .images-section, .faq-section {
