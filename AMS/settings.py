@@ -165,9 +165,13 @@ DEBUG_TOOLBAR_CONFIG = {
 # ]
 # Static files (CSS, JavaScript, images)
 STATIC_URL = '/static/'
+# Directory for your custom static files (used in development)
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')  # This points to your custom static folder
+]
 
-# Location where collectstatic will store static files
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# Directory where all static files will be collected (used in production)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Make sure this is a separate folder
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

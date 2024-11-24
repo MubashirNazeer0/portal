@@ -1,0 +1,54 @@
+.welcome-section {
+    background-image: url('{% static "img/smec_logo.jpg" %}'); /* Correct Django static path */
+    background-size: cover;
+    background-position: center;
+    height: 500px; /* Adjust height as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Add shadow for depth */
+    animation: fadeIn 2s ease-in-out; /* Fade-in animation */
+}
+
+.welcome-content {
+    max-width: 1200px;
+    background-color: rgba(0, 0, 0, 0.4 ); /* Semi-transparent background to enhance text readability */
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.welcome-section h2 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: white;
+}
+
+.welcome-section p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: white;
+}
+/* Fade-in Animation */
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+
+
+
+.images-section, .faq-section {
+    width: 80%; /* Reduce the width */
+    margin: 0 auto; /* Center-align */
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.images-section {
+    margin-bottom: 20px;
+}
+
