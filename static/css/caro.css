@@ -52,3 +52,20 @@
     margin-bottom: 20px;
 }
 
+
+
+
+
+
+.faq-section {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 5px;
+    max-height: 250px; /* Maximum height for scroll */
+    overflow-y: auto; /* Enable scroll */
+}
+
+.ads-container {
+    max-height: 600px; /* Adjust the height as needed */
+    overflow-y: auto; /* Enable scroll when content exceeds the container height */
+}

@@ -43,34 +43,34 @@
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0" style="top: 0px;">
         <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-            <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>CBA</h2>
+            <h2 class="m-0 text-primary"><i><img src="{% static 'img/logo11.jpg' %}" alt="CBA Logo" style="height: 50px;"></i>CBA</h2>
         </a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="index.html" class="nav-item nav-link active">Home</a>
-                <a href="about.html" class="nav-item nav-link">About</a>
-                <a href="courses.html" class="nav-item nav-link">Courses</a>
+                <a href="#home" class="nav-item nav-link active">Home</a>
+                <a href="#about" class="nav-item nav-link">About</a>
+                <a href="#courses" class="nav-item nav-link">Courses</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
                     <div class="dropdown-menu fade-down m-0">
-                        <a href="team.html" class="dropdown-item">Our Team</a>
-                        <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                        <a href="404.html" class="dropdown-item">404 Page</a>
+                        <a href="#categories" class="dropdown-item">Categories</a>
+                        <a href="#events" class="dropdown-item">Events</a>
+                        <a href="#faqs" class="dropdown-item">Queries</a>
                     </div>
                 </div>
-                <a href="contact.html" class="nav-item nav-link">Contact</a>
+                <a href="#footer" class="nav-item nav-link">Contact</a>
             </div>
-            <a href="" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
+            <a href="{% url 'login' %}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
         </div>
     </nav>
     <!-- Navbar End -->
 <!-- Carousel Start -->
 
 
-<div class="welcome-section"  style="background-image: url('{% static "img/about_us.jpg" %}'); background-size: cover; background-position: center; height: 500px; display: flex; justify-content: center; align-items: center; color: white; text-align: center; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); animation: fadeIn 2s ease-in-out;">
+<div id="home" class="welcome-section"  style="background-image: url('{% static "img/about_us.jpg" %}'); background-size: cover; background-position: center; height: 500px; display: flex; justify-content: center; align-items: center; color: white; text-align: center; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); animation: fadeIn 2s ease-in-out;">
     <div class="welcome-content">
         <h2>Welcome to Kuwait University</h2>
         <p>Kuwait University is the national institution of higher education in Kuwait. We offer a range of programs and research opportunities across various disciplines. Our aim is to provide a transformative educational experience for students that combines academic rigor with cultural richness.</p>
@@ -83,56 +83,10 @@
 </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <div class="container-xxl py-5">
+<div class="container-xxl py-5">
     <div class="container">
-        <div class="row g-4">
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
+        <div class="row g-4 d-flex justify-content-center">  <!-- Added d-flex and justify-content-center -->
+            <div class="col-3 col-sm-6 col-md-3 wow fadeInUp" data-wow-delay="0.1s">  <!-- Changed col-lg-3 to col-3 for all screen sizes -->
                 <div class="service-item text-center pt-3">
                     <div class="p-4">
                         <i class="fa fa-3x fa-graduation-cap text-primary mb-4"></i>
@@ -141,7 +95,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
+            <div class="col-3 col-sm-6 col-md-3 wow fadeInUp" data-wow-delay="0.3s">
                 <div class="service-item text-center pt-3">
                     <div class="p-4">
                         <i class="fa fa-3x fa-globe text-primary mb-4"></i>
@@ -150,7 +104,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">
+            <div class="col-3 col-sm-6 col-md-3 wow fadeInUp" data-wow-delay="0.5s">
                 <div class="service-item text-center pt-3">
                     <div class="p-4">
                         <i class="fa fa-3x fa-home text-primary mb-4"></i>
@@ -159,7 +113,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s" style="visibility: visible; animation-delay: 0.7s; animation-name: fadeInUp;">
+            <div class="col-3 col-sm-6 col-md-3 wow fadeInUp" data-wow-delay="0.7s">
                 <div class="service-item text-center pt-3">
                     <div class="p-4">
                         <i class="fa fa-3x fa-book-open text-primary mb-4"></i>
@@ -171,8 +125,25 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- About Start -->
-<div class="container-xxl py-5">
+<div  id="about" class="container-xxl py-5">
     <div class="container">
         <div class="row g-5">
             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
@@ -184,8 +155,8 @@
             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
                 <h6 class="section-title bg-white text-start text-primary pe-3">About Us</h6>
                 <h1 class="mb-4">Welcome to CBA JOB PORTAL</h1>
-                <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
-                <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
+                <p class="mb-4">Welcome to CBA network portal, a thriving network that links alumni and employers. Our platform is committed to creating enduring relationships, giving tools for professional growth, and creating an area to recognize the accomplishments of alumni. Our portal is here to help you along the road, whether you’re looking for networking opportunities or mentorship.</p>
+                <p class="mb-4">We enable one another to flourish and have an influence when we work together...</p>
                 <div class="row gy-2 gx-4 mb-4">
                     <div class="col-sm-6">
                         <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Skilled Instructors</p>
@@ -213,7 +184,7 @@
 </div>
 <!-- About End -->
 <!-- Categories Start -->
-<div class="container-xxl py-5 category">
+<div id="categories" class="container-xxl py-5 category">
     <div class="container">
         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
             <h6 class="section-title bg-white text-center text-primary px-3">Categories</h6>
@@ -270,7 +241,7 @@
 <!-- Categories End -->
 
     <!-- Courses Start -->
-    <div class="container-xxl py-5">
+    <div id="courses" class="container-xxl py-5">
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h6 class="section-title bg-white text-center text-primary px-3">Courses</h6>
@@ -367,7 +338,7 @@
     <!-- Courses End -->
 
 
-    <!-- Team Start -->
+    {% comment %} <!-- Team Start -->
     <div class="container-xxl py-5">
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
@@ -451,10 +422,62 @@
         </div>
     </div>
     <!-- Team End -->
+ {% endcomment %}
+<!-- Images Section --> 
+<div id="events" class="images-section">
+            <div class="text-center">
+                <h6 class="section-title bg-white text-center text-primary px-3">Testimonial</h6>
+                <h1 class="mb-5">Campus and Events</h1>
+            </div>
+    <!-- Advertisements Grid -->
+    <div class="ads-container">
+        <div class="row">
+            {% for ad in advertisements %}
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="card">
+                        <img src="{{ ad.image.url }}" class="card-img-top ad-image" alt="Advertisement Image">
+                    </div>
+                </div>
+            {% empty %}
+                <p>No advertisements available at the moment.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- FAQ Section -->
+<div id="faqs" class="faq-section">
+    <div class="text-center">
+        <h6 class="section-title bg-white text-center text-primary px-3">Testimonial</h6>
+        <h1 class="mb-5">FAQs</h1>
+    </div>    <div class="faq-content">
+        <p><strong>Q1:</strong> What are the conditions for field registration?</p>
+        <p><strong>A:</strong> The student must have completed more than 90 units.</p>
+        
+        <p><strong>Q2:</strong> What is the required rate for the field?</p>
+        <p><strong>A:</strong> A GPA of 2.2 and above is required.</p>
+        
+        <p><strong>Q3:</strong> How many units are needed to register for the field?</p>
+        <p><strong>A:</strong> 90 units and above.</p>
+        
+        <p><strong>Q4:</strong> How many hours is the field training?</p>
+        <p><strong>A:</strong> 4 hours a day.</p>
+        
+        <p><strong>Q5:</strong> What are the field training days for the first and second semesters?</p>
+        <p><strong>A:</strong> Sunday, Tuesday, and Thursday.</p>
+        
+        <p><strong>Q6:</strong> What are the field training days in the summer semester?</p>
+        <p><strong>A:</strong> All days of the week.</p>
+    </div>
+    
+</div>
+
+
+
 
 
     <!-- Testimonial Start -->
-    <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+    {% comment %} <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
         <div class="container">
             <div class="text-center">
                 <h6 class="section-title bg-white text-center text-primary px-3">Testimonial</h6>
@@ -495,27 +518,27 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> {% endcomment %}
     <!-- Testimonial End -->
         
 
     <!-- Footer Start -->
-    <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div  id='footer' class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-3">Quick Link</h4>
-                    <a class="btn btn-link" href="">About Us</a>
-                    <a class="btn btn-link" href="">Contact Us</a>
+                    <a class="btn btn-link" href="#about">About Us</a>
+                    <a class="btn btn-link" href="#contact">Contact Us</a>
                     <a class="btn btn-link" href="">Privacy Policy</a>
                     <a class="btn btn-link" href="">Terms & Condition</a>
-                    <a class="btn btn-link" href="">FAQs & Help</a>
+                    <a class="btn btn-link" href="#faqs">FAQs & Help</a>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-3">Contact</h4>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Sabah Al Salem University City, Kuwait</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>tel:24988625</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>mailto:Osta@ku.edu.kw</p>
                     <div class="d-flex pt-2">
                         <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
                         <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
@@ -567,10 +590,10 @@
                     </div>
                     <div class="col-md-6 text-center text-md-end">
                         <div class="footer-menu">
-                            <a href="">Home</a>
+                            <a href="#home">Home</a>
                             <a href="">Cookies</a>
-                            <a href="">Help</a>
-                            <a href="">FQAs</a>
+                            <a href="#faqs">Help</a>
+                            <a href="#faqs">FQAs</a>
                         </div>
                     </div>
                 </div>
