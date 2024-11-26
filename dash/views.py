@@ -101,6 +101,67 @@ from django.db.models import Q
 from datetime import datetime
 
 
+# class SearchUserView(LoginRequiredMixin, View):
+#     def get(self, request, *args, **kwargs):
+#         user_type = request.user.profile.role  # Assuming you have the role stored in Profile model
+        
+#         # Determine the appropriate form based on user type
+#         if user_type == 'employer':
+#             form = EmployerSearchForm(request.GET)
+#         else:  # for 'student' or 'alumni'
+#             form = StudentAlumniSearchForm(request.GET)
+        
+#         search_results = None
+
+#         # Get the values from the GET request (can be empty strings or None)
+#         query = request.GET.get('query', '')
+#         event_subject = request.GET.get('event_subject', '')
+#         event_date = request.GET.get('event_date', '')
+#         venue = request.GET.get('venue', '')
+#         cgpa = request.GET.get('cgpa', '')
+#         dept = request.GET.get('dept', '')
+#         current_job = request.GET.get('current_job', '')
+#         current_company = request.GET.get('current_company', '')
+#         roll_no = request.GET.get('roll_no', '')
+
+#         # Apply search filters only if the corresponding value is provided
+#         if user_type == 'employer':
+#             search_results = Profile.objects.filter(
+#                 Q(user__username__icontains=query) |
+#                 Q(cgpa__icontains=cgpa) |
+#                 Q(dept__icontains=dept) |
+#                 Q(job_role__icontains=current_job) |
+#                 Q(company__icontains=current_company) |
+#                 Q(registration_number__icontains=roll_no)
+#             ).order_by('-id')
+#         else:  # For student or alumni
+#             # Build the filter conditions
+#             filters = Q()
+            
+#             # Apply filters only for non-empty fields
+#             if event_subject:
+#                 print('evemt subject present',event_subject)
+#                 filters &= Q(event_subject__icontains=event_subject)
+            
+#             if event_date:
+#                 try:
+#                     # Validate the date format and apply the filter if valid
+#                     datetime.strptime(event_date, '%Y-%m-%d')
+#                     filters &= Q(event_date__exact=event_date)
+#                 except ValueError:
+#                     pass  # If invalid date format, ignore the filter
+            
+#             if venue:
+#                 filters &= Q(venue__icontains=venue)
+#             search_results = Events.objects.filter(filters)
+#         context = {
+#             'title': 'Search Results',
+#             'form': form,
+#             'query': query,
+#             'search_results': search_results
+#         }
+#         print(search_results)
+#         return render(request, 'dash/search_list.html', context)
 class SearchUserView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         user_type = request.user.profile.role  # Assuming you have the role stored in Profile model
@@ -115,52 +176,72 @@ class SearchUserView(LoginRequiredMixin, View):
 
         # Get the values from the GET request (can be empty strings or None)
         query = request.GET.get('query', '')
-        event_subject = request.GET.get('event_subject', '')
-        event_date = request.GET.get('event_date', '')
-        venue = request.GET.get('venue', '')
-        cgpa = request.GET.get('cgpa', '')
         dept = request.GET.get('dept', '')
+        cgpa = request.GET.get('cgpa', '')
+        passout_year = request.GET.get('passout_year', '')
         current_job = request.GET.get('current_job', '')
         current_company = request.GET.get('current_company', '')
         roll_no = request.GET.get('roll_no', '')
 
-        # Apply search filters only if the corresponding value is provided
         if user_type == 'employer':
-            search_results = Profile.objects.filter(
-                Q(user__username__icontains=query) |
-                Q(cgpa__icontains=cgpa) |
-                Q(dept__icontains=dept) |
-                Q(job_role__icontains=current_job) |
-                Q(company__icontains=current_company) |
-                Q(registration_number__icontains=roll_no)
-            ).order_by('-id')
-        else:  # For student or alumni
-            # Build the filter conditions
+            # Employers search Students and Alumni
+            student_filters = Q()
+            alumni_filters = Q()
+
+            # Apply filters for students
+            if dept:
+                student_filters &= Q(dept__icontains=dept)
+            if cgpa:
+                student_filters &= Q(cgpa__gte=float(cgpa))  # e.g., cgpa >= entered value
+            if passout_year:
+                student_filters &= Q(passout_year=passout_year)
+            if roll_no:
+                student_filters &= Q(registration_number__icontains=roll_no)
+
+            # Apply filters for alumni
+            if dept:
+                alumni_filters &= Q(dept__icontains=dept)
+            if cgpa:
+                alumni_filters &= Q(cgpa__gte=float(cgpa))  # e.g., cgpa >= entered value
+            if passout_year:
+                alumni_filters &= Q(passout_year=passout_year)
+            if current_job:
+                alumni_filters &= Q(current_job__icontains=current_job)
+            if current_company:
+                alumni_filters &= Q(current_company__icontains=current_company)
+
+            # Combine results from both models
+            student_results = Student.objects.filter(student_filters)
+            alumni_results = Alumni.objects.filter(alumni_filters)
+            
+            # Combine QuerySets
+            search_results = list(student_results) + list(alumni_results)
+        else:
+            # Students or alumni searching events
             filters = Q()
-            
-            # Apply filters only for non-empty fields
+            event_subject = request.GET.get('event_subject', '')
+            event_date = request.GET.get('event_date', '')
+            venue = request.GET.get('venue', '')
+
             if event_subject:
-                print('evemt subject present',event_subject)
                 filters &= Q(event_subject__icontains=event_subject)
-            
             if event_date:
                 try:
-                    # Validate the date format and apply the filter if valid
                     datetime.strptime(event_date, '%Y-%m-%d')
-                    filters &= Q(event_date__exact=event_date)
+                    filters &= Q(event_date=event_date)
                 except ValueError:
-                    pass  # If invalid date format, ignore the filter
-            
+                    pass  # Ignore invalid dates
             if venue:
                 filters &= Q(venue__icontains=venue)
+            
             search_results = Events.objects.filter(filters)
+
         context = {
             'title': 'Search Results',
             'form': form,
             'query': query,
-            'search_results': search_results
+            'search_results': search_results,
         }
-        print(search_results)
         return render(request, 'dash/search_list.html', context)
 
 
