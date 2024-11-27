@@ -5,6 +5,198 @@
     <div class="col-md-6">
         <main role="main" class="container">
             
+            {% if search_results_students.exists or search_results_alumni.exists %}
+            {% if search_results_students.exists %}
+                <h2>Students</h2>
+                <ul>
+                    {% for student in search_results_students %}
+                        <li>
+                            <img src="{{ student.profile.image.url }}" alt="Profile Picture" width="50" height="50">
+                            <strong>{{ student.profile.user.first_name }} {{ student.profile.user.last_name }}</strong>
+                            <p>Email: {{ student.profile.user.email }}</p>
+                            <p>Department: {{ student.dept }}</p>
+                            <p>Registration Number: {{ student.registration_number }}</p>
+                            <p>CGPA: {{ student.cgpa }}</p>
+                            <p>Passout Year: {{ student.passout_year }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <br>
+            {% endif %}
+
+            {% if search_results_alumni.exists %}
+                <h2>Alumni</h2>
+                <ul>
+                    {% for alumni in search_results_alumni %}
+                        <li>
+                            <img src="{{ alumni.profile.image.url }}" alt="Profile Picture" width="50" height="50">
+                            <strong>{{ alumni.profile.user.first_name }} {{ alumni.profile.user.last_name }}</strong>
+                            <p>Email: {{ alumni.profile.user.email }}</p>
+                            <p>Department: {{ alumni.dept }}</p>
+                            <p>Registration Number: {{ alumni.registration_number }}</p>
+                            <p>CGPA: {{ alumni.cgpa }}</p>
+                            <p>Passout Year: {{ alumni.passout_year }}</p>
+                            <p>Current Job: {{ alumni.current_job }}</p>
+                            <p>Current Company: {{ alumni.current_company }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <br>
+            {% endif %}
+            {% endif %}
+
+            <!-- Events Section -->
+            {% if search_results_events.exists %}
+                <h2>Events</h2>
+                {% for event in search_results_events %}
+                    <div class="card">
+                        <div class="card-header container-fluid is-pulled-right">
+                            <div class="row">
+                                <div class="col md-6">
+                                    <span style="font-size: 2em; color: Dodgerblue;">
+                                        <i class="fas fa-calendar"></i>
+                                    </span>
+                                    {{ event.event_date }}
+                                    <div class="float-sm-right">
+                                        <span style="font-size: 2em; color: Tomato;">
+                                            <i class="fab fa-periscope"></i>
+                                        </span>
+                                        {{ event.venue }}<br><br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col sm-8">
+                                    <b>Event</b> : {{ event.event_subject }} <br> <br>
+                                </div>
+                                {% if user_logged %}
+                                    {% if user_logged.is_superuser %}
+                                        <div class="float-sm-right">
+                                            <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{% url 'event-update' event.id %}">Update</a>
+                                        </div>
+                                        <div class="float-sm-right">
+                                            <form action="{% url 'delete-event' %}" onsubmit="return confirm('Are you sure you want to delete this event?')" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="event_id" value="{{ event.id }}">
+                                                <input type="submit" class="btn btn-danger btn-sm mt-1 mb-1" value="Delete" />
+                                            </form>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                            <b><i>RSVP</i></b> : {{ event.email }} <br> <br>
+                            {{ event.text }}<br> <br>
+                            {% if event.image %}
+                                <div class="event-image">
+                                    <img src="{{ event.image.url }}" alt="Event Image" class="img-fluid event-img">
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <!-- Posts Section -->
+            {% if search_results_posts.exists %}
+                <h2>Posts</h2>
+                {% for post in search_results_posts %}
+                    <div class="post">
+                        <h3>{{ post.title }}</h3>
+                        <p>{{ post.content }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            {% if not search_results_students.exists and not search_results_alumni.exists and not search_results_events.exists and not search_results_posts.exists %}
+                <h2>No results found for your search.</h2>
+            {% endif %}
+        </main>
+    </div>
+</div>
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} {% extends "dash/base.html" %}
+
+{% block content %}
+<div class="row justify-content-md-center">
+    <div class="col-md-6">
+        <main role="main" class="container">
+            
             {% if search_results %}
                 {% if user.profile.role == 'student' or user.profile.role == 'alumni' %}
                     <!-- Display events if the user is a student or alumni -->
@@ -92,4 +284,4 @@
         </main>
     </div>
 </div>
-{% endblock content %}
+{% endblock content %} {% endcomment %}
