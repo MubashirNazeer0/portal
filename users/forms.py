@@ -90,22 +90,41 @@ class EmployerForm(forms.ModelForm):
         fields = ['company_name', 'work_location', 'job_role']
 
 # Student-specific form
+# class StudentForm(forms.ModelForm):
+#     dept = forms.ChoiceField(choices=Profile.DEPT_CHOICES, label="Department")
+#     passout_year = forms.TypedChoiceField(
+#         coerce=int, choices=year_choices, initial=current_year, label="Passout Year"
+#     )
+
+#     class Meta:
+#         model = Student
+#         fields = ['dept', 'registration_number','cgpa' ,'passout_year']
+
+
+# class AlumniForm(forms.ModelForm):
+#     class Meta:
+#         model = Alumni
+#         fields = ['dept', 'registration_number','cgpa', 'passout_year','current_job', 'current_company']
+
 class StudentForm(forms.ModelForm):
     dept = forms.ChoiceField(choices=Profile.DEPT_CHOICES, label="Department")
     passout_year = forms.TypedChoiceField(
-        coerce=int, choices=year_choices, initial=current_year, label="Passout Year"
+        coerce=int, choices=year_choices, initial=current_year, label="Graduation Year"  # Changed label here
     )
 
     class Meta:
         model = Student
-        fields = ['dept', 'registration_number','cgpa' ,'passout_year']
+        fields = ['dept', 'registration_number', 'cgpa', 'passout_year','cv']
 
 
 class AlumniForm(forms.ModelForm):
+    passout_year = forms.TypedChoiceField(
+        coerce=int, choices=year_choices, initial=current_year, label="Graduation Year"  # Changed label here
+    )
+
     class Meta:
         model = Alumni
-        fields = ['dept', 'registration_number','cgpa', 'passout_year','current_job', 'current_company']
-
+        fields = ['dept', 'registration_number', 'cgpa', 'passout_year', 'current_job', 'current_company','cv']
 
 
 
@@ -155,8 +174,16 @@ class PostersForm(forms.ModelForm):
         
         
 class EmployerSearchForm(forms.Form):
+    # title=forms.CharField(max_length=100, required=False, label='Title')
     cgpa = forms.FloatField(required=False, label='CGPA')
-    dept = forms.ChoiceField(choices=Profile.DEPT_CHOICES, required=False, label='Department')
+    # dept = forms.ChoiceField(choices=Profile.DEPT_CHOICES, required=False, label='Department')
+    dept = forms.MultipleChoiceField(
+        choices=Profile.DEPT_CHOICES,
+        required=False,
+        label='Department',
+        widget=forms.SelectMultiple(attrs={'class': 'form-control'})
+    )    
+    
     current_job = forms.CharField(max_length=100, required=False, label='Current Job')
     current_company = forms.CharField(max_length=200, required=False, label='Current Company')
     roll_no = forms.CharField(max_length=12, required=False, label='Roll Number')
@@ -164,8 +191,9 @@ class EmployerSearchForm(forms.Form):
 
 class StudentAlumniSearchForm(forms.Form):
     event_subject = forms.CharField(max_length=40, required=False, label='Event Subject')
-    event_date = forms.DateField(required=False, widget=forms.SelectDateWidget(years=range(1984, datetime.date.today().year + 1)), label='Event Date')
+    # event_date = forms.DateField(required=False, widget=forms.SelectDateWidget(years=range(1984, datetime.date.today().year + 1)), label='Event Date')
     venue = forms.CharField(max_length=200, required=False, label='Event Venue')
+    semester= forms.IntegerField(required=False, label='Semester')
     
     
 from django.contrib.auth.forms import AuthenticationForm

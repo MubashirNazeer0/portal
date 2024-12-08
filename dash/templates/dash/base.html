@@ -4,7 +4,9 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+        
         <!-- jQuery and Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="{% static 'dash/main.css' %}">
@@ -47,34 +49,87 @@
                 <div class="navbar-nav ml-auto d-flex align-items-center">
                     <!-- Search Button -->
 <!-- Search Button and Dropdown -->
-<button class="btn btn-outline-light ml-1" type="button" id="searchToggle">Search</button>
-<div id="searchForm" class="dropdown-menu dropdown-menu-right" style="display: none; backdrop-filter: blur(5px);">
-    <form action="{% url 'search-users' %}" method="GET">
-        {% comment %} <input class="form-control" value="{{ request.GET.query }}"> {% endcomment %}
+{% comment %} <button class="btn btn-outline-light ml-1" type="button" id="searchToggle" >Search</button> {% endcomment %}
 
+<button class="btn btn-outline-light ml-1" 
+        type="button" 
+        id="searchToggle" 
+        style="position: absolute; right: 30%; transform: translateX(-20%); width: 150px;">
+    Search
+</button>
+
+
+
+
+
+<div id="searchForm" class="dropdown-menu dropdown-menu-right search-form" style="display: none;">
+    <form action="{% url 'search-users' %}" method="GET" class="p-3">
         {% if user.profile.role == 'employer' %}
-        <input class="form-control ml-2" type="text" name="cgpa" placeholder="CGPA" value="{{ request.GET.cgpa }}">
-        <select class="form-control ml-2" name="dept">
-            <option value="">Department</option>
-            {% for value, label in user.profile.DEPT_CHOICES %}
+        <div class="form-group">
+            <input class="form-control" type="text" name="cgpa" placeholder="CGPA" value="{{ request.GET.cgpa }}">
+        </div>
+        {% comment %} <div class="form-group">
+            <select class="form-control" name="dept">
+                <option value="">Department</option>
+                {% for value, label in user.profile.DEPT_CHOICES %}
                 <option value="{{ value }}" {% if request.GET.dept == value %}selected{% endif %}>{{ label }}</option>
-            {% endfor %}
-        </select>
-        <input class="form-control ml-2" type="text" name="current_job" placeholder="Current Job" value="{{ request.GET.current_job }}">
-        <input class="form-control ml-2" type="text" name="current_company" placeholder="Current Company" value="{{ request.GET.current_company }}">
-        <input class="form-control ml-2" type="text" name="roll_no" placeholder="Roll No" value="{{ request.GET.roll_no }}">
-        <button class="btn btn-outline-light ml-1" type="submit">Search</button>
+                {% endfor %}
+            </select>
+        </div> {% endcomment %}
+
+
+        <div class="form-group">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="deptDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                Select Departments
+            </button>
+            <div class="dropdown-menu p-3" aria-labelledby="deptDropdown">
+                <select class="form-control" name="dept" multiple style="width: 100%;">
+                    {% for value, label in user.profile.DEPT_CHOICES %}
+                    
+                    <option value="{{ value }}" {% if value in selected_depts %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        
+
+
+
+
+
+
+
+
+
+
+        <div class="form-group">
+            <input class="form-control" type="text" name="current_job" placeholder="Current Job" value="{{ request.GET.current_job }}">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" name="current_company" placeholder="Current Company" value="{{ request.GET.current_company }}">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" name="roll_no" placeholder="Roll No" value="{{ request.GET.roll_no }}">
+        </div>
+        <button class="btn btn-outline-light w-100" type="submit">Search</button>
         {% endif %}
 
         {% if user.profile.role == 'student' or user.profile.role == 'alumni' %}
-        <input class="form-control ml-2" type="text" name="event_subject" placeholder="Event Subject" value="{{ request.GET.event_subject }}">
-        <input class="form-control ml-2" type="date" name="event_date" value="{{ request.GET.event_date }}">
-        <input class="form-control ml-2" type="text" name="venue" placeholder="Event Venue" value="{{ request.GET.venue }}">
-        <button class="btn btn-outline-light ml-1" type="submit">Search</button>
+        <div class="form-group">
+            <input class="form-control" type="text" name="event_subject" placeholder="Query" value="{{ request.GET.event_subject }}">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" name="Semester" placeholder="Semester" value="{{ request.GET.semester }}">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" name="venue" placeholder="Event Venue" value="{{ request.GET.venue }}">
+        </div>
+        <button class="btn btn-outline-light w-100" type="submit">Search</button>
         {% endif %}
     </form>
 </div>
-
                     <!-- Profile Icon with Dropdown -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle profile-icon" href="#" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -206,7 +261,10 @@
             margin-bottom: 1px;
         }
 
-
+        .dropdown-menu select {
+            max-height: 200px; /* Limit height for scrolling */
+            overflow-y: auto; /* Enable scroll if options exceed the height */
+        }
         
     
         #searchForm .form-control::placeholder {

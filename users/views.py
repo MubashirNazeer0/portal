@@ -192,12 +192,55 @@ from django.db import transaction
 
 from django.db import transaction
 
+# def register(request):
+#     if request.method == 'POST':
+#         user_form = UserRegisterForm(request.POST)
+#         profile_form = ProfileRegisterForm(request.POST)
+
+#         if user_form.is_valid() and profile_form.is_valid():
+#             try:
+#                 # Start a transaction block
+#                 with transaction.atomic():
+#                     # Save the user
+#                     user = user_form.save()
+
+#                     # Check if the user already has a profile
+#                     profile, created = Profile.objects.get_or_create(user=user)
+
+#                     if created:  # Profile was newly created
+#                         profile = profile_form.save(commit=False)
+#                         profile.user = user
+#                         profile.role = profile_form.cleaned_data['role']  # Set role from the form
+#                         profile.save()  # Save the new profile
+#                     else:  # Profile already exists, maybe update it
+#                         profile.role = profile_form.cleaned_data['role']  # Update role field
+#                         profile.save()  # Save the updated profile
+
+#                     # Proceed with saving the specific model (Employer, Student, Alumni)
+#                     role = profile_form.cleaned_data['role']
+#                     if role == 'employer':
+#                         employer_form = EmployerForm(request.POST)
+#                         if employer_form.is_valid():
+#                             employer = employer_form.save(commit=False)
+#                             employer.profile = profile
+#                             employer.save()
+#                         else:
+#                             raise ValueError("Employer form is invalid.")
+#                     elif role == 'student':
+#                         student_form = StudentForm(request.POST, prefix='student')
+#                         if student_form.is_valid():
+#                             student = student_form.save(commit=False)
+#                             student.profile = profile
+#                             student.save()
+#                         else:
+#                             raise ValueError("Student form is invalid.")
 def register(request):
     if request.method == 'POST':
         user_form = UserRegisterForm(request.POST)
-        profile_form = ProfileRegisterForm(request.POST)
+        profile_form = ProfileRegisterForm(request.POST, request.FILES)  # Include request.FILES
+        student_form = StudentForm(request.POST, request.FILES, prefix='student')  # Include request.FILES
 
-        if user_form.is_valid() and profile_form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid() and student_form.is_valid():
             try:
                 # Start a transaction block
                 with transaction.atomic():
@@ -219,7 +262,7 @@ def register(request):
                     # Proceed with saving the specific model (Employer, Student, Alumni)
                     role = profile_form.cleaned_data['role']
                     if role == 'employer':
-                        employer_form = EmployerForm(request.POST)
+                        employer_form = EmployerForm(request.POST, request.FILES)  # Include request.FILES
                         if employer_form.is_valid():
                             employer = employer_form.save(commit=False)
                             employer.profile = profile
@@ -227,19 +270,28 @@ def register(request):
                         else:
                             raise ValueError("Employer form is invalid.")
                     elif role == 'student':
-                        student_form = StudentForm(request.POST, prefix='student')
-                        if student_form.is_valid():
-                            student = student_form.save(commit=False)
-                            student.profile = profile
+                        student = student_form.save(commit=False)
+                        student.profile = profile
+                        student.save()
+                        # Handle CV file upload
+                        cv = student_form.cleaned_data.get('cv')  # Get the uploaded CV
+                        if cv:
+                            student.cv = cv  # Save the CV to the student instance
                             student.save()
-                        else:
-                            raise ValueError("Student form is invalid.")
+
                     elif role == 'alumni':
                         alumni_form = AlumniForm(request.POST, prefix='alumni')
                         if alumni_form.is_valid():
                             alumni = alumni_form.save(commit=False)
                             alumni.profile = profile
                             alumni.save()
+                            
+                            
+                            cv = alumni_form.cleaned_data.get('cv')  # Get the uploaded CV
+                            if cv:
+                                alumni.cv = cv  # Save the CV to the student instance
+                                alumni.save()
+
                         else:
                             raise ValueError("Alumni form is invalid.")
 

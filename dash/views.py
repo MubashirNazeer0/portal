@@ -166,7 +166,9 @@ def search_view(request):
     form = EmployerSearchForm(request.GET or None)
     query = request.GET.get('query', None)
     cgpa = request.GET.get('cgpa', '')
-    dept = request.GET.get('dept', '')
+    # dept = request.GET.get('dept', '')
+    depts = request.GET.getlist('dept')  # Fetch multiple departments
+
     current_job = request.GET.get('current_job', None)
     current_company = request.GET.get('current_company', None)
     roll_no = request.GET.get('roll_no', '').strip()  # Ensure roll_no is stripped of leading/trailing spaces
@@ -180,8 +182,10 @@ def search_view(request):
     if cgpa:
         search_results_students = search_results_students.filter(cgpa__gte=cgpa)
 
-    if dept:
-        search_results_students = search_results_students.filter(dept__icontains=dept)
+    if depts:
+        # search_results_students = search_results_students.filter(dept__icontains=dept)
+        search_results_students = search_results_students.filter(dept__in=depts)
+
 
     if roll_no:
         search_results_students = search_results_students.filter(registration_number__exact=roll_no)
@@ -190,8 +194,9 @@ def search_view(request):
     if cgpa:
         search_results_alumni = search_results_alumni.filter(cgpa__gte=cgpa)
 
-    if dept:
-        search_results_alumni = search_results_alumni.filter(dept__icontains=dept)
+    if depts:
+        # search_results_alumni = search_results_alumni.filter(dept__icontains=dept)
+        search_results_alumni = search_results_alumni.filter(dept__in=depts)
 
     if current_job:
         search_results_alumni = search_results_alumni.filter(current_job__icontains=current_job)
@@ -215,6 +220,8 @@ def search_view(request):
         'search_results_alumni': search_results_alumni,
         'search_results_events': search_results_events,
         'search_results_posts': search_results_posts,
+        'selected_depts': depts,  # Pass the selected departments
+
     }
 
     return render(request, 'dash/search_list.html', context)

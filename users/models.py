@@ -120,6 +120,7 @@ class Student(models.Model):
         default=current_year(),
         validators=[MinValueValidator(1984), max_value_current_year],
     )
+    cv = models.FileField(upload_to='student_cvs/', null=True, blank=True)
     STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('approved', 'Approved'),
@@ -160,7 +161,7 @@ class Alumni(models.Model):
         ('approved', 'Approved'),
         ('disapproved', 'Disapproved'),
     ]
-    
+    cv = models.FileField(upload_to='alumni_cvs/', null=True, blank=True)
     status = models.CharField(max_length=12, choices=Profile.STATUS_CHOICES, default='pending')
 
     def __str__(self):

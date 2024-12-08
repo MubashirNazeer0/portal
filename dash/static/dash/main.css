@@ -329,40 +329,68 @@ i {
 .profile-icon:hover {
     color: #ffeb3b;
 }
-
 /* Search Form Styling */
 .search-form {
-    margin-bottom: 0; /* Remove bottom margin */
+    margin-bottom: 0;
+    background-color: rgba(58, 67, 110, 0.9);
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.search-form .form-group {
+    margin-bottom: 1rem;
 }
 
 .search-form .form-control {
-    background-color: #3949ab;
-    border: none;
-    color: #f8f9fa;
-    border-radius: 3px;
-    padding: 0.5rem; /* Increased padding for height */
-    height: 40px; /* Set a specific height */
-    line-height: 1.5; /* Center text vertically */
+    background-color: #283593; /* Dark blue */
+    border: 1px solid #3949ab; /* Subtle border */
+    color: #ffffff; /* White text */
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.search-form .form-control:focus {
+    border-color: #ffeb3b; /* Highlight border */
+    box-shadow: 0 0 5px #ffeb3b; /* Subtle glow */
+    outline: none;
 }
 
 .search-form .form-control::placeholder {
-    color: #ffffff; /* White color for placeholder text */
+    color: rgba(255, 255, 255, 0.7); /* Slightly transparent placeholder */
 }
 
 .search-form .btn-outline-light {
-    border-color: #ffeb3b;
+    border: 1px solid #ffeb3b;
     color: #ffeb3b;
-    transition: background-color 0.3s, color 0.3s;
-    padding: 0.5rem 1rem; /* Increase padding for height */
-    height: 40px; /* Set a specific height */
-    line-height: 1.5; /* Center text vertically */
+    background-color: transparent;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    font-weight: 600;
+    width: 100%;
 }
 
 .search-form .btn-outline-light:hover {
     background-color: #ffeb3b;
-    color: #ffffff; /* Change text color to white on hover */
+    color: #283593; /* Match form background */
 }
 
+#searchToggle {
+    font-weight: bold;
+    padding: 0.5rem 1.25rem;
+    background-color: #3949ab;
+    border: 2px solid #ffeb3b;
+    color: #ffffff;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+#searchToggle:hover {
+    background-color: #ffeb3b;
+    color: #3949ab;
+    border-color: #ffeb3b;
+}
 /* Aligning search bar and button with profile icon */
 .navbar-nav .form-inline {
     margin-top: 0.2rem; /* Adjust the vertical alignment */
