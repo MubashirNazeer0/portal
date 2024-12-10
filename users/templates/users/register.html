@@ -104,7 +104,7 @@
         text-decoration: underline;
     }
 </style>
-<div class="custom-wrapper">
+{% comment %} <div class="custom-wrapper">
     <div class="custom-form-content">
         <form method="POST" class="custom-form">
             {% csrf_token %}
@@ -145,8 +145,49 @@
             <small>Already Have An Account? <a href="{% url 'login' %}">Sign In</a></small>
         </div>
     </div>
-</div>
+</div> {% endcomment %}
+<div class="custom-wrapper">
+    <div class="custom-form-content">
+        <form method="POST" class="custom-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="custom-legend">Join Today</legend>
+                {{ form.as_p }}
+            </fieldset>
+            <!-- Profile form (role selection) -->
+            <fieldset class="form-group">
+                <legend class="custom-legend">Role</legend>
+                {{ profile_form.as_p }}
+            </fieldset>
 
+            <!-- Employer Form (hidden until 'employer' role is selected) -->
+            <fieldset id="employer-form" class="form-group role-specific-form">
+                <legend class="custom-legend">Employer Details</legend>
+                {{ employer_form.as_p }}
+            </fieldset>
+
+            <!-- Student Form (hidden until 'student' role is selected) -->
+            <fieldset id="student-form" class="form-group role-specific-form">
+                <legend class="custom-legend">Student Details</legend>
+                {{ student_form.as_p }}
+            </fieldset>
+
+            <!-- Alumni Form (hidden until 'alumni' role is selected) -->
+            <fieldset id="alumni-form" class="form-group role-specific-form">
+                <legend class="custom-legend">Alumni Details</legend>
+                {{ alumni_form.as_p }}
+            </fieldset>
+
+            <div class="form-group">
+                <button class="btn custom-submit-btn" type="submit">Sign Up</button>
+            </div>
+        </form>
+
+        <div class="custom-form-footer">
+            <small>Already Have An Account? <a href="{% url 'login' %}">Sign In</a></small>
+        </div>
+    </div>
+</div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const roleField = document.getElementById("id_role");
