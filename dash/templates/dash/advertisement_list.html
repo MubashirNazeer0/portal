@@ -1,26 +1,59 @@
-{% extends 'dash/base.html' %}
+{% extends 'dash/base.html' %}  <!-- This must be the first tag -->
+
+{% load i18n %}  <!-- Then load the translation library -->
 
 {% block content %}
   <div class="container">
-    <h2>Advertisements</h2>
+    <h2 id="heading-en">Advertisements</h2>
+    <h2 id="heading-ar" style="display: none;">الإعلانات</h2>
 
     <div class="row justify-content-center">
       {% for advertisement in advertisements %}
         <div class="col-md-12 mb-4">
           <!-- Fixed-size container for advertisement -->
-          {% if user.is_superuser %}
           <div class="advertisement-container">
-            <!-- The button will be hidden by default and shown when hovering over the image -->
-            <a class="btn btn-danger btn-lg delete-btn" href="{% url 'delete_advertisement' advertisement.id %}">Delete</a>
-            <img src="{{ advertisement.image.url }}" class="advertisement-img" alt="Advertisement">
+            {% if user.is_superuser %}
+            <a class="btn btn-danger btn-lg delete-btn" href="{% url 'delete_advertisement' advertisement.id %}" id="delete-btn-en">{% trans 'Delete' %}</a>
+            <a class="btn btn-danger btn-lg delete-btn" href="{% url 'delete_advertisement' advertisement.id %}" id="delete-btn-ar" style="display: none;">{% trans 'حذف' %}</a>
+            {% endif %}
+            <img src="{{ advertisement.image.url }}" class="advertisement-img" alt="{% trans 'Advertisement' %}">
           </div>
-          {% endif %}
         </div>
       {% empty %}
-        <p>No advertisements available.</p>
+        <p id="no-ads-en">{% trans 'No advertisements available.' %}</p>
+        <p id="no-ads-ar" style="display: none;">{% trans 'لا توجد إعلانات متاحة.' %}</p>
       {% endfor %}
     </div>
+
+    <!-- Language switcher buttons -->
+    {% comment %} <div>
+      <button onclick="setLanguage('en')" class="btn btn-primary">{% trans 'English' %}</button>
+      <button onclick="setLanguage('ar')" class="btn btn-primary">{% trans 'العربية' %}</button>
+    </div> {% endcomment %}
   </div>
+
+  <script>
+    // Function to switch language
+    function setLanguage(lang) {
+      if (lang === 'en') {
+        // Show English content, hide Arabic content
+        document.getElementById('heading-en').style.display = 'block';
+        document.getElementById('heading-ar').style.display = 'none';
+        document.getElementById('delete-btn-en').style.display = 'inline-block';
+        document.getElementById('delete-btn-ar').style.display = 'none';
+        document.getElementById('no-ads-en').style.display = 'block';
+        document.getElementById('no-ads-ar').style.display = 'none';
+      } else if (lang === 'ar') {
+        // Show Arabic content, hide English content
+        document.getElementById('heading-en').style.display = 'none';
+        document.getElementById('heading-ar').style.display = 'block';
+        document.getElementById('delete-btn-en').style.display = 'none';
+        document.getElementById('delete-btn-ar').style.display = 'inline-block';
+        document.getElementById('no-ads-en').style.display = 'none';
+        document.getElementById('no-ads-ar').style.display = 'block';
+      }
+    }
+  </script>
 
   <!-- In-page CSS -->
   <style>
@@ -72,3 +105,40 @@
     }
   </style>
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {% comment %} {% extends 'dash/base.html' %}
+    
+    {% block content %}
+      <div class="container">
+        <h2>Advertisements</h2>
+    
+        <div class="row justify-content-center">
+          {% for advertisement in advertisements %}
+            <div class="col-md-12 mb-4">
+              <!-- Fixed-size container for advertisement -->
+              {% if user.is_superuser %}
+              <div class="advertisement-container">
+                <!-- The button will be hidden by default and shown when hovering over the image -->
+                <a class="btn btn-danger btn-lg delete-btn" href="{% url 'delete_advertisement' advertisement.id %}">Delete</a>
+                <img src="{{ advertisement.image.url }}" class="advertisement-img" alt="Advertisement">
+              </div>
+              {% endif %}
+            </div>
+          {% empty %}
+            <p>No advertisements available.</p>
+          {% endfor %}
+        </div>
+      </div> {% endcomment %}
+  
