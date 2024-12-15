@@ -162,69 +162,171 @@ from datetime import datetime
 #         }
 #         print(search_results)
 #         return render(request, 'dash/search_list.html', context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# def search_view(request):
+#     form = EmployerSearchForm(request.GET or None)
+#     query = request.GET.get('query', None)
+#     cgpa = request.GET.get('cgpa', '')
+#     # dept = request.GET.get('dept', '')
+#     depts = request.GET.getlist('dept')  # Fetch multiple departments
+
+#     current_job = request.GET.get('current_job', None)
+#     current_company = request.GET.get('current_company', None)
+#     roll_no = request.GET.get('roll_no', '').strip()  # Ensure roll_no is stripped of leading/trailing spaces
+
+#     # Fetch all records initially
+#     search_results_students = Student.objects.all()  # Start with all students
+#     search_results_alumni = Alumni.objects.all()  # Start with all alumni
+#     search_results_events = Events.objects.none()  # Start with all events
+#     search_results_posts = Post.objects.none()  # Start with all posts
+
+#     if cgpa:
+#         search_results_students = search_results_students.filter(cgpa__gte=cgpa)
+
+#     if depts:
+#         # search_results_students = search_results_students.filter(dept__icontains=dept)
+#         search_results_students = search_results_students.filter(dept__in=depts)
+
+
+#     if roll_no:
+#         search_results_students = search_results_students.filter(registration_number__exact=roll_no)
+
+
+#     if cgpa:
+#         search_results_alumni = search_results_alumni.filter(cgpa__gte=cgpa)
+
+#     if depts:
+#         # search_results_alumni = search_results_alumni.filter(dept__icontains=dept)
+#         search_results_alumni = search_results_alumni.filter(dept__in=depts)
+
+#     if current_job:
+#         search_results_alumni = search_results_alumni.filter(current_job__icontains=current_job)
+
+#     if current_company:
+#         search_results_alumni = search_results_alumni.filter(current_company__icontains=current_company)
+
+#     if roll_no:
+#         search_results_alumni = search_results_alumni.filter(registration_number__exact=roll_no)
+
+#     # If a query is provided, filter events and posts
+#     if query is not None:
+#         search_results_events = search_results_events.filter(event_subject__icontains=query)
+#         search_results_posts = search_results_posts.filter(content__icontains=query)
+    
+#     context = {
+#         'title': 'Search Results',
+#         'form': form,  # Assuming the form object is passed
+#         'query': query,
+#         'search_results_students': search_results_students,
+#         'search_results_alumni': search_results_alumni,
+#         'search_results_events': search_results_events,
+#         'search_results_posts': search_results_posts,
+#         'selected_depts': depts,  # Pass the selected departments
+
+#     }
+#     print(context)
+#     return render(request, 'dash/search_list.html', context)
+
+
 def search_view(request):
     form = EmployerSearchForm(request.GET or None)
-    query = request.GET.get('query', None)
-    cgpa = request.GET.get('cgpa', '')
-    # dept = request.GET.get('dept', '')
+
+    # Get parameters from the request
+    query = request.GET.get('query', '').strip()
+    event_subject = request.GET.get('event_subject', '').strip()
+    semester = request.GET.get('Semester', '').strip()
+    venue = request.GET.get('venue', '').strip()
+    cgpa = request.GET.get('cgpa', '').strip()
     depts = request.GET.getlist('dept')  # Fetch multiple departments
+    roll_no = request.GET.get('roll_no', '').strip()
 
-    current_job = request.GET.get('current_job', None)
-    current_company = request.GET.get('current_company', None)
-    roll_no = request.GET.get('roll_no', '').strip()  # Ensure roll_no is stripped of leading/trailing spaces
+    # Initialize results
+    search_results_students = Student.objects.none()
+    search_results_alumni = Alumni.objects.none()
+    search_results_events = Events.objects.none()
+    search_results_posts = Post.objects.none()
 
-    # Fetch all records initially
-    search_results_students = Student.objects.all()  # Start with all students
-    search_results_alumni = Alumni.objects.all()  # Start with all alumni
-    search_results_events = Events.objects.none()  # Start with all events
-    search_results_posts = Post.objects.none()  # Start with all posts
+    # Determine what to search based on the inputs
+    if query and not (event_subject or semester or venue):
+        # Search in posts if only `query` is provided
+        search_results_posts = Post.objects.filter(title__icontains=query) | Post.objects.filter(content__icontains=query)
 
+    elif event_subject or semester or venue:
+        # Search in events if any event-specific fields are provided
+        search_results_events = Events.objects.all()
+
+        if event_subject:
+            search_results_events = search_results_events.filter(event_subject__icontains=event_subject)
+
+        if semester:
+            search_results_events = search_results_events.filter(semester__icontains=semester)
+
+        if venue:
+            search_results_events = search_results_events.filter(venue__icontains=venue)
+
+    # Optional: Add logic for student and alumni searches based on other parameters
     if cgpa:
-        search_results_students = search_results_students.filter(cgpa__gte=cgpa)
+        search_results_students = Student.objects.filter(cgpa__gte=cgpa)
+        search_results_alumni = Alumni.objects.filter(cgpa__gte=cgpa)
 
     if depts:
-        # search_results_students = search_results_students.filter(dept__icontains=dept)
         search_results_students = search_results_students.filter(dept__in=depts)
-
+        search_results_alumni = search_results_alumni.filter(dept__in=depts)
 
     if roll_no:
         search_results_students = search_results_students.filter(registration_number__exact=roll_no)
-
-
-    if cgpa:
-        search_results_alumni = search_results_alumni.filter(cgpa__gte=cgpa)
-
-    if depts:
-        # search_results_alumni = search_results_alumni.filter(dept__icontains=dept)
-        search_results_alumni = search_results_alumni.filter(dept__in=depts)
-
-    if current_job:
-        search_results_alumni = search_results_alumni.filter(current_job__icontains=current_job)
-
-    if current_company:
-        search_results_alumni = search_results_alumni.filter(current_company__icontains=current_company)
-
-    if roll_no:
         search_results_alumni = search_results_alumni.filter(registration_number__exact=roll_no)
 
-    # If a query is provided, filter events and posts
-    if query is not None:
-        search_results_events = search_results_events.filter(event_subject__icontains=query)
-        search_results_posts = search_results_posts.filter(content__icontains=query)
-
+    # Prepare context
     context = {
         'title': 'Search Results',
-        'form': form,  # Assuming the form object is passed
+        'form': form,
         'query': query,
         'search_results_students': search_results_students,
         'search_results_alumni': search_results_alumni,
         'search_results_events': search_results_events,
         'search_results_posts': search_results_posts,
-        'selected_depts': depts,  # Pass the selected departments
-
     }
-
+    print(context)
     return render(request, 'dash/search_list.html', context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

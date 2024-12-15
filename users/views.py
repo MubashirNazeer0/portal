@@ -2,202 +2,22 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
-from .forms import UserRegisterForm, ProfileRegisterForm, UserUpdateForm, ProfileUpdateForm,CustomAuthenticationForm
+from .forms import *
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from .models import *
 from django.contrib.auth.views import LoginView
-
-
-# Create your views here.
-
-# def register(request):
-#     if request.method == 'POST':
-#         form = UserRegisterForm(request.POST)
-#         profile_form = ProfileRegisterForm(request.POST)
-#         if form.is_valid() and profile_form.is_valid():
-#             try:
-#                 user = form.save()
-#                 userprofile = Profile.objects.get(user=user)
-#                 userprofile.dept=profile_form.cleaned_data['dept']
-#                 userprofile.registration_number=profile_form.cleaned_data['registration_number'].upper()
-#                 userprofile.job_role=profile_form.cleaned_data['job_role']
-#                 userprofile.work_location=profile_form.cleaned_data['work_location']
-#                 userprofile.company=profile_form.cleaned_data['company']
-#                 userprofile.passout_year = profile_form.cleaned_data['passout_year']
-#                 userprofile.save()
-#                 username = form.cleaned_data.get('username')
-#                 raw_password = form.cleaned_data.get('password1')
-#                 messages.success(request, f'Your account has been created successfully')
-#                 user = authenticate(username=username, password=raw_password)
-#                 # login(request, user)
-#                 # return redirect('dash-home')
-#                 messages.warning(request, f'You Can Login Once the Admin approves your account')
-#                 return redirect('login')
-            
-#             except Exception as e:
-#                 print(e)
-#                 messages.warning(request, f'There was some issue')
-#                 return redirect('login')
-#     else:
-#         form = UserRegisterForm()
-#         profile_form = ProfileRegisterForm()
-#     return render(request, 'users/register.html', {'form': form, 'profile_form': profile_form})
-
-
-
-
-
-from .forms import UserRegisterForm, ProfileRegisterForm, EmployerForm, StudentForm,AlumniForm
-
-# def register(request):
-#     if request.method == 'POST':
-#         # Load the user registration and profile forms
-#         form = UserRegisterForm(request.POST)
-#         profile_form = ProfileRegisterForm(request.POST)
-
-#         if form.is_valid() and profile_form.is_valid():
-#             try:
-#                 # Save the user instance
-#                 user = form.save()
-#                 role = profile_form.cleaned_data['role']
-
-#                 # Create the profile instance
-#                 profile = Profile.objects.create(user=user, role=role)
-
-#                 # Handle specific role-based forms
-#                 if role == 'employer':
-#                     employer_form = EmployerForm(request.POST)
-#                     if employer_form.is_valid():
-#                         employer = employer_form.save(commit=False)
-#                         employer.profile = profile
-#                         employer.save()
-#                     else:
-#                         messages.error(request, "Error in Employer Form.")
-#                         raise ValueError("Invalid Employer Form")
-
-#                 elif role == 'student':
-#                     student_form = StudentForm(request.POST)
-#                     if student_form.is_valid():
-#                         student = student_form.save(commit=False)
-#                         student.profile = profile
-#                         student.save()
-#                     else:
-#                         messages.error(request, "Error in Student Form.")
-#                         raise ValueError("Invalid Student Form")
-
-#                 # Success messages and redirect
-#                 messages.success(request, 'Your account has been created successfully.')
-#                 messages.warning(request, 'You can log in once the admin approves your account.')
-#                 return redirect('login')
-
-#             except Exception as e:
-#                 print(f"Error: {e}")
-#                 messages.error(request, 'There was an issue creating your account. Please try again.')
-
-#         else:
-#             messages.error(request, 'Please correct the errors in the form.')
-
-#     else:
-#         # Render empty forms for GET request
-#         form = UserRegisterForm()
-#         profile_form = ProfileRegisterForm()
-#         employer_form = EmployerForm()
-#         student_form = StudentForm()
-
-#     return render(request, 'users/register.html', {
-#         'form': form,
-#         'profile_form': profile_form,
-#         'employer_form': employer_form,
-#         'student_form': student_form,
-#     })
-from django.db import transaction
-
-
-
-# def register(request):
-#     if request.method == 'POST':
-#         user_form = UserRegisterForm(request.POST)
-#         profile_form = ProfileRegisterForm(request.POST)
-        
-#         if user_form.is_valid() and profile_form.is_valid():
-#             user = user_form.save()
-            
-#             # Check if the user already has a profile
-#             profile, created = Profile.objects.get_or_create(user=user)  # This will get the existing profile or create a new one
-            
-#             if created:  # Profile was newly created
-#                 profile = profile_form.save(commit=False)
-#                 profile.user = user
-#                 print('created now')
-#                 profile.role = profile_form.cleaned_data['role']  # Set role from the form
-#                 profile.save()  # Save the new profile
-#             else:  # Profile already exists, maybe update it
-#                 # Optionally update fields if needed, e.g., update role, dept, etc.
-#                 profile.role = profile_form.cleaned_data['role']  # Update role field
-#                 profile_form.save(commit=False)  # Optionally update other fields here
-#                 profile.save()  # Save the updated profile
-#                 print('Profile was already created, updated role')
-
-#             # Proceed with saving the specific model (Employer, Student, Alumni)
-#             role = profile_form.cleaned_data['role']
-#             if role == 'employer':
-#                 employer_form = EmployerForm(request.POST)
-#                 if employer_form.is_valid():
-#                     employer = employer_form.save(commit=False)
-#                     employer.profile = profile
-#                     employer.save()
-#             elif role == 'student':
-#                 student_form = StudentForm(request.POST, prefix='student')
-#                 if student_form.is_valid():
-#                     student = student_form.save(commit=False)
-#                     student.profile = profile
-#                     student.save()
-#             elif role == 'alumni':
-#                 alumni_form = AlumniForm(request.POST, prefix='alumni')
-#                 if alumni_form.is_valid():
-#                     alumni = alumni_form.save(commit=False)
-#                     alumni.profile = profile
-#                     alumni.save()
-
-#             # login(request, user)
-#             return redirect('login')
-#     else:
-#         # Render empty forms for GET request
-#         form = UserRegisterForm()
-#         profile_form = ProfileRegisterForm()
-#         employer_form = EmployerForm()
-#         student_form = StudentForm()
-#         alumni_form=AlumniForm()
-#     return render(request, 'users/register.html', {
-#         'form': form,
-#         'profile_form': profile_form,
-#         'employer_form': employer_form,
-#         'student_form': student_form,
-#         'alumni_form':alumni_form
-#     })
-
-
-
-
-
-
-
-
-
-
-
-
 from django.db import transaction
 
 # def register(request):
 #     if request.method == 'POST':
 #         user_form = UserRegisterForm(request.POST)
-#         profile_form = ProfileRegisterForm(request.POST)
+#         profile_form = ProfileRegisterForm(request.POST, request.FILES)  # Include request.FILES
+#         student_form = StudentForm(request.POST, request.FILES, prefix='student')  # Include request.FILES
 
-#         if user_form.is_valid() and profile_form.is_valid():
+#         if user_form.is_valid() and profile_form.is_valid() and student_form.is_valid():
 #             try:
 #                 # Start a transaction block
 #                 with transaction.atomic():
@@ -219,7 +39,7 @@ from django.db import transaction
 #                     # Proceed with saving the specific model (Employer, Student, Alumni)
 #                     role = profile_form.cleaned_data['role']
 #                     if role == 'employer':
-#                         employer_form = EmployerForm(request.POST)
+#                         employer_form = EmployerForm(request.POST, request.FILES)  # Include request.FILES
 #                         if employer_form.is_valid():
 #                             employer = employer_form.save(commit=False)
 #                             employer.profile = profile
@@ -227,22 +47,67 @@ from django.db import transaction
 #                         else:
 #                             raise ValueError("Employer form is invalid.")
 #                     elif role == 'student':
-#                         student_form = StudentForm(request.POST, prefix='student')
-#                         if student_form.is_valid():
-#                             student = student_form.save(commit=False)
-#                             student.profile = profile
+#                         student = student_form.save(commit=False)
+#                         student.profile = profile
+#                         student.save()
+#                         # Handle CV file upload
+#                         cv = student_form.cleaned_data.get('cv')  # Get the uploaded CV
+#                         if cv:
+#                             student.cv = cv  # Save the CV to the student instance
 #                             student.save()
+
+#                     elif role == 'alumni':
+#                         alumni_form = AlumniForm(request.POST, prefix='alumni')
+#                         if alumni_form.is_valid():
+#                             alumni = alumni_form.save(commit=False)
+#                             alumni.profile = profile
+#                             alumni.save()
+                            
+                            
+#                             cv = alumni_form.cleaned_data.get('cv')  # Get the uploaded CV
+#                             if cv:
+#                                 alumni.cv = cv  # Save the CV to the student instance
+#                                 alumni.save()
+
 #                         else:
-#                             raise ValueError("Student form is invalid.")
+#                             raise ValueError("Alumni form is invalid.")
+
+#                     # Transaction successful, redirect to login
+#                     return redirect('login')
+
+#             except Exception as e:
+#                 # Log the error for debugging (optional)
+#                 print(f"An error occurred: {e}")
+
+#                 # Optionally, add a message to the user
+#                 messages.error(request, "An error occurred during registration. Please try again.")
+#         else:
+#             messages.error(request, "Invalid form data. Please correct the errors below.")
+
+#     else:
+#         # Render empty forms for GET request
+#         user_form = UserRegisterForm()
+#         profile_form = ProfileRegisterForm()
+#         employer_form = EmployerForm()
+#         student_form = StudentForm(prefix='student')
+#         alumni_form = AlumniForm(prefix='alumni')
+
+#     return render(request, 'users/register.html', {
+#         'form': user_form,
+#         'profile_form': profile_form,
+#         'employer_form': employer_form,
+#         'student_form': student_form,
+#         'alumni_form': alumni_form
+#     })
+
 def register(request):
     if request.method == 'POST':
         user_form = UserRegisterForm(request.POST)
-        profile_form = ProfileRegisterForm(request.POST, request.FILES)  # Include request.FILES
-        student_form = StudentForm(request.POST, request.FILES, prefix='student')  # Include request.FILES
+        profile_form = ProfileRegisterForm(request.POST, request.FILES)
+        student_form = StudentForm(request.POST, request.FILES, prefix='student')
 
         if user_form.is_valid() and profile_form.is_valid() and student_form.is_valid():
             try:
-                # Start a transaction block
                 with transaction.atomic():
                     # Save the user
                     user = user_form.save()
@@ -250,19 +115,19 @@ def register(request):
                     # Check if the user already has a profile
                     profile, created = Profile.objects.get_or_create(user=user)
 
-                    if created:  # Profile was newly created
+                    if created:
                         profile = profile_form.save(commit=False)
                         profile.user = user
-                        profile.role = profile_form.cleaned_data['role']  # Set role from the form
-                        profile.save()  # Save the new profile
-                    else:  # Profile already exists, maybe update it
-                        profile.role = profile_form.cleaned_data['role']  # Update role field
-                        profile.save()  # Save the updated profile
+                        profile.role = profile_form.cleaned_data['role']
+                        profile.save()
+                    else:
+                        profile.role = profile_form.cleaned_data['role']
+                        profile.save()
 
-                    # Proceed with saving the specific model (Employer, Student, Alumni)
+                    # Handle roles
                     role = profile_form.cleaned_data['role']
                     if role == 'employer':
-                        employer_form = EmployerForm(request.POST, request.FILES)  # Include request.FILES
+                        employer_form = EmployerForm(request.POST, request.FILES)
                         if employer_form.is_valid():
                             employer = employer_form.save(commit=False)
                             employer.profile = profile
@@ -270,45 +135,43 @@ def register(request):
                         else:
                             raise ValueError("Employer form is invalid.")
                     elif role == 'student':
+                        # Manually set the CV field and save
                         student = student_form.save(commit=False)
                         student.profile = profile
-                        student.save()
-                        # Handle CV file upload
-                        cv = student_form.cleaned_data.get('cv')  # Get the uploaded CV
+                        print(request.FILES)
+                        print(student_form.cleaned_data.get('cv'))
+                        # Retrieve and assign CV from form data
+                        cv = request.FILES.get(student_form.add_prefix('cv'))  # Retrieve 'cv' from FILES
                         if cv:
-                            student.cv = cv  # Save the CV to the student instance
-                            student.save()
+                            student.cv = cv
 
+                        student.save()
                     elif role == 'alumni':
-                        alumni_form = AlumniForm(request.POST, prefix='alumni')
+                        alumni_form = AlumniForm(request.POST, request.FILES, prefix='alumni')
                         if alumni_form.is_valid():
                             alumni = alumni_form.save(commit=False)
                             alumni.profile = profile
-                            alumni.save()
-                            
-                            
-                            cv = alumni_form.cleaned_data.get('cv')  # Get the uploaded CV
-                            if cv:
-                                alumni.cv = cv  # Save the CV to the student instance
-                                alumni.save()
 
+                            # Retrieve and assign CV from form data
+                            cv = request.FILES.get(alumni_form.add_prefix('cv'))
+                            if cv:
+                                alumni.cv = cv
+
+                            alumni.save()
                         else:
                             raise ValueError("Alumni form is invalid.")
 
-                    # Transaction successful, redirect to login
+                    # Redirect on success
                     return redirect('login')
 
             except Exception as e:
-                # Log the error for debugging (optional)
                 print(f"An error occurred: {e}")
-
-                # Optionally, add a message to the user
                 messages.error(request, "An error occurred during registration. Please try again.")
         else:
             messages.error(request, "Invalid form data. Please correct the errors below.")
 
     else:
-        # Render empty forms for GET request
+        # Render forms for GET request
         user_form = UserRegisterForm()
         profile_form = ProfileRegisterForm()
         employer_form = EmployerForm()
@@ -325,6 +188,104 @@ def register(request):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# def register(request):
+#     if request.method == 'POST':
+#         user_form = UserRegisterForm(request.POST)
+#         profile_form = ProfileRegisterForm(request.POST, request.FILES)  # Include request.FILES
+#         student_form = StudentForm(request.POST, request.FILES, prefix='student')  # Include request.FILES
+#         employer_form = EmployerForm(request.POST, request.FILES)  # Include request.FILES
+#         alumni_form = AlumniForm(request.POST, request.FILES, prefix='alumni')  # Include request.FILES
+
+#         if user_form.is_valid() and profile_form.is_valid() and student_form.is_valid():
+#             try:
+#                 with transaction.atomic():
+#                     # Save user and profile
+#                     user = user_form.save()
+#                     profile = profile_form.save(commit=False)
+#                     profile.user = user
+#                     profile.save()
+
+#                     # Save role-specific data
+#                     role = profile_form.cleaned_data['role']
+#                     if role == 'employer' and employer_form.is_valid():
+#                         employer = employer_form.save(commit=False)
+#                         employer.profile = profile
+#                         employer.save()
+#                     elif role == 'student' and student_form.is_valid():
+#                         student = student_form.save(commit=False)
+#                         student.profile = profile
+#                         student.save()
+#                     elif role == 'alumni' and alumni_form.is_valid():
+#                         alumni = alumni_form.save(commit=False)
+#                         alumni.profile = profile
+#                         alumni.save()
+#                     else:
+#                         raise ValueError("Invalid role-specific form data.")
+
+#                     # Redirect on success
+#                     return redirect('login')
+
+#             except Exception as e:
+#                 messages.error(request, f"An error occurred: {e}")
+#         else:
+#             messages.error(request, "Please correct the errors below.")
+#     else:
+#         # Initialize forms for GET request
+#         user_form = UserRegisterForm()
+#         profile_form = ProfileRegisterForm()
+#         employer_form = EmployerForm()  # Initialize EmployerForm
+#         student_form = StudentForm(prefix='student')  # Initialize StudentForm
+#         alumni_form = AlumniForm(prefix='alumni')  # Initialize AlumniForm
+
+#     return render(request, 'users/register.html', {
+#         'form': user_form,
+#         'profile_form': profile_form,
+#         'employer_form': employer_form,
+#         'student_form': student_form,
+#         'alumni_form': alumni_form
+#     })
 
 
 

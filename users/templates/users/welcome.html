@@ -32,7 +32,7 @@
     <!-- Template Stylesheet -->
     <link rel="stylesheet" href="{% static '/css/style.css' %}" >
 </head>
-
+{% load i18n %}  <!-- Then load the translation library -->
 <body>
     <div id="spinner" class="bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
@@ -41,35 +41,118 @@
     </div>
 
     <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0" style="top: 0px;">
-        <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-            <h2 class="m-0 text-primary"><i><img src="{% static 'img/logo11.jpg' %}" alt="CBA Logo" style="height: 50px;"></i>CBA</h2>
-        </a>
-        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="#home" class="nav-item nav-link active">Home</a>
-                <a href="#about" class="nav-item nav-link">About</a>
-                <a href="#courses" class="nav-item nav-link">Courses</a>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
-                    <div class="dropdown-menu fade-down m-0">
-                        <a href="#categories" class="dropdown-item">Categories</a>
-                        <a href="#events" class="dropdown-item">Events</a>
-                        <a href="#faqs" class="dropdown-item">Queries</a>
-                    </div>
+    <!-- Navbar Start -->
+<nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0" style="top: 0px;">
+    <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+        <h2 class="m-0 text-primary">
+            <i><img src="{% static 'img/logo11.jpg' %}" alt="CBA Logo" style="height: 50px;"></i>
+            <span id="navbar-cba-en">{% trans 'CBA' %}</span>
+            <span id="navbar-cba-ar" style="display: none;">CBA</span>
+        </h2>
+    </a>
+    <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav ms-auto p-4 p-lg-0">
+
+            <a href="#home" class="nav-item nav-link active">
+                <span id="home-en">{% trans 'Home' %}</span>
+                <span id="home-ar" style="display: none;">الصفحة الرئيسية</span>
+            </a>
+            <a href="#about" class="nav-item nav-link">
+                <span id="about-en">{% trans 'About' %}</span>
+                <span id="about-ar" style="display: none;">حول</span>
+            </a>
+            <a href="#courses" class="nav-item nav-link">
+                <span id="courses-en">{% trans 'Courses' %}</span>
+                <span id="courses-ar" style="display: none;">الدورات</span>
+            </a>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span id="pages-en">{% trans 'Pages' %}</span>
+                    <span id="pages-ar" style="display: none;">الصفحات</span>
+                </a>
+                <div class="dropdown-menu fade-down m-0">
+                    <a href="#categories" class="dropdown-item">
+                        <span id="categories-en">{% trans 'Categories' %}</span>
+                        <span id="categories-ar" style="display: none;">الفئات</span>
+                    </a>
+                    <a href="#events" class="dropdown-item">
+                        <span id="events-en">{% trans 'Events' %}</span>
+                        <span id="events-ar" style="display: none;">الفعاليات</span>
+                    </a>
+                    <a href="#faqs" class="dropdown-item">
+                        <span id="faqs-en">{% trans 'Queries' %}</span>
+                        <span id="faqs-ar" style="display: none;">الاستفسارات</span>
+                    </a>
                 </div>
-                <a href="#footer" class="nav-item nav-link">Contact</a>
             </div>
-            <a href="{% url 'login' %}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
+            <a href="#footer" class="nav-item nav-link">
+                <span id="contact-en">{% trans 'Contact' %}</span>
+                <span id="contact-ar" style="display: none;">اتصل بنا</span>
+            </a>
         </div>
-    </nav>
-    <!-- Navbar End -->
+        <a href="{% url 'login' %}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">
+            <span id="join-now-en">{% trans 'Join Now' %}</span>
+            <span id="join-now-ar" style="display: none;">انضم الآن</span>
+            <i class="fa fa-arrow-right ms-3"></i>
+        </a>
+    </div>
+</nav>
+<!-- Navbar End -->
 <!-- Carousel Start -->
 
+<div id="home" class="welcome-section" style="background-image: url('{% static "img/about_us.jpg" %}'); background-size: cover; background-position: center; height: 500px; display: flex; justify-content: center; align-items: center; color: white; text-align: center; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); animation: fadeIn 2s ease-in-out;">
+    <div class="welcome-content">
+        <h2 id="welcome-heading-en">{% trans 'Welcome to CBA JOB PORTAL' %}</h2>
+        <h2 id="welcome-heading-ar" style="display: none;">مرحبًا بكم في بوابة وظائف CBA</h2>
+        <p id="welcome-text-en">{% trans 'Kuwait University is the national institution of higher education in Kuwait. We offer a range of programs and research opportunities across various disciplines. Our aim is to provide a transformative educational experience for students that combines academic rigor with cultural richness.' %}</p>
+        <p id="welcome-text-ar" style="display: none;">جامعة الكويت هي المؤسسة الوطنية للتعليم العالي في الكويت. نقدم مجموعة من البرامج وفرص البحث عبر مختلف التخصصات. هدفنا هو تقديم تجربة تعليمية تحويلية للطلاب تجمع بين الجدية الأكاديمية والثراء الثقافي.</p>
+        <div class="button-container">
+            <a class="btn btn-primary" href="{% url 'login' %}">
+                <span id="login-en">{% trans 'Login' %}</span>
+                <span id="login-ar" style="display: none;">تسجيل الدخول</span>
+            </a>
+            <a class="btn btn-secondary" href="{% url 'register' %}">
+                <span id="register-en">{% trans 'Register' %}</span>
+                <span id="register-ar" style="display: none;">تسجيل</span>
+            </a>
+        </div>
+    </div>
+</div>
 
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-4 d-flex justify-content-center">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="service-item text-center pt-3">
+                    <div class="p-4">
+                        <i class="fa fa-3x fa-graduation-cap text-primary mb-4"></i>
+                        <h5 class="mb-3" id="skilled-instructors-en">{% trans 'Skilled Instructors' %}</h5>
+                        <h5 class="mb-3" id="skilled-instructors-ar" style="display: none;">مدربون ماهرون</h5>
+                        <p id="instructors-text-en">{% trans 'Learn from the best! Our instructors bring years of experience and a passion for teaching to help you succeed.' %}</p>
+                        <p id="instructors-text-ar" style="display: none;">تعلم من الأفضل! يجلب مدربونا سنوات من الخبرة وشغفًا بالتعليم لمساعدتك على النجاح.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
+                <div class="service-item text-center pt-3">
+                    <div class="p-4">
+                        <i class="fa fa-3x fa-globe text-primary mb-4"></i>
+                        <h5 class="mb-3" id="online-classes-en">{% trans 'Online Classes' %}</h5>
+                        <h5 class="mb-3" id="online-classes-ar" style="display: none;">دورات عبر الإنترنت</h5>
+                        <p id="online-classes-text-en">{% trans 'Access quality education from anywhere with our interactive and flexible online courses tailored to your needs.' %}</p>
+                        <p id="online-classes-text-ar" style="display: none;">احصل على تعليم عالي الجودة من أي مكان مع دوراتنا عبر الإنترنت التفاعلية والمرنة التي تتناسب مع احتياجاتك.</p>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+{% comment %} 
 <div id="home" class="welcome-section"  style="background-image: url('{% static "img/about_us.jpg" %}'); background-size: cover; background-position: center; height: 500px; display: flex; justify-content: center; align-items: center; color: white; text-align: center; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); animation: fadeIn 2s ease-in-out;">
     <div class="welcome-content">
         <h2>Welcome to CBA JOB PORTAL</h2>
@@ -101,7 +184,14 @@
                         <p>Access quality education from anywhere with our interactive and flexible online courses tailored to your needs.</p>
                     </div>
                 </div>
-            </div>
+            </div> {% endcomment %}
+
+
+
+
+
+
+
             {% comment %} <div class="col-12 col-sm-6 col-md-4 col-lg-3 wow fadeInUp" data-wow-delay="0.5s">
                 <div class="service-item text-center pt-3">
                     <div class="p-4">
@@ -111,7 +201,7 @@
                     </div>
                 </div>
             </div> {% endcomment %}
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 wow fadeInUp" data-wow-delay="0.7s">
+            {% comment %} <div class="col-12 col-sm-6 col-md-4 col-lg-3 wow fadeInUp" data-wow-delay="0.7s">
                 <div class="service-item text-center pt-3">
                     <div class="p-4">
                         <i class="fa fa-3x fa-book-open text-primary mb-4"></i>
@@ -119,7 +209,20 @@
                         <p>Explore a world of knowledge with our vast library of books, resources, and materials available at your fingertips.</p>
                     </div>
                 </div>
+            </div> {% endcomment %}
+
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 wow fadeInUp" data-wow-delay="0.7s">
+                <div class="service-item text-center pt-3">
+                    <div class="p-4">
+                        <i class="fa fa-3x fa-book-open text-primary mb-4"></i>
+                        <h5 class="mb-3" id="book-library-en">{% trans 'Book Library' %}</h5>
+                        <h5 class="mb-3" id="book-library-ar" style="display: none;">مكتبة الكتب</h5>
+                        <p id="book-library-text-en">{% trans 'Explore a world of knowledge with our vast library of books, resources, and materials available at your fingertips.' %}</p>
+                        <p id="book-library-text-ar" style="display: none;">استكشف عالمًا من المعرفة مع مكتبتنا الواسعة من الكتب والموارد والمواد المتاحة بين يديك.</p>
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -138,7 +241,7 @@
 
 
 <!-- About Start -->
-<div  id="about" class="container-xxl py-5">
+<div id="about" class="container-xxl py-5">
     <div class="container">
         <div class="row g-5">
             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
@@ -148,42 +251,44 @@
                 </div>
             </div>
             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
-                <h6 class="section-title bg-white text-start text-primary pe-3">About Us</h6>
-                <h1 class="mb-4">Welcome to CBA JOB PORTAL</h1>
-                <p class="mb-4">Welcome to CBA network portal, a thriving network that links alumni and employers. Our platform is committed to creating enduring relationships, giving tools for professional growth, and creating an area to recognize the accomplishments of alumni. Our portal is here to help you along the road, whether you’re looking for networking opportunities or mentorship.</p>
-                <p class="mb-4">We enable one another to flourish and have an influence when we work together...</p>
+                <h6 class="section-title bg-white text-start text-primary pe-3" id="about-title-en">{% trans 'About Us' %}</h6>
+                <h1 class="mb-4" id="about-heading-en">{% trans 'Welcome to CBA JOB PORTAL' %}</h1>
+                <h1 class="mb-4" id="about-heading-ar" style="display: none;">مرحبًا بك في بوابة CBA للوظائف</h1>
+                <p class="mb-4" id="about-text-en">{% trans 'Welcome to CBA network portal, a thriving network that links alumni and employers. Our platform is committed to creating enduring relationships, giving tools for professional growth, and creating an area to recognize the accomplishments of alumni. Our portal is here to help you along the road, whether you’re looking for networking opportunities or mentorship.' %}</p>
+                <p class="mb-4" id="about-text-ar" style="display: none;">مرحبًا بك في بوابة شبكة CBA، وهي شبكة مزدهرة تربط بين الخريجين وأصحاب العمل. منصتنا ملتزمة بخلق علاقات دائمة، وتوفير أدوات للنمو المهني، وخلق مساحة للاعتراف بإنجازات الخريجين. بوابتنا هنا لمساعدتك في الطريق، سواء كنت تبحث عن فرص للتواصل أو الإرشاد.</p>
+                <p class="mb-4" id="about-more-text-en">{% trans 'We enable one another to flourish and have an influence when we work together...' %}</p>
+                <p class="mb-4" id="about-more-text-ar" style="display: none;">نمكن بعضنا البعض من الازدهار وإحداث تأثير عندما نعمل معًا...</p>
                 <div class="row gy-2 gx-4 mb-4">
                     <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Skilled Instructors</p>
+                        <p class="mb-0" id="about-point1-en"><i class="fa fa-arrow-right text-primary me-2"></i>{% trans 'Skilled Instructors' %}</p>
+                        <p class="mb-0" id="about-point1-ar" style="display: none;"><i class="fa fa-arrow-right text-primary me-2"></i>مدربون مهنيون</p>
                     </div>
                     <div class="col-sm-6">
-                        <p class="mb-1"><i class="fa fa-arrow-right text-primary me-2"></i>Online Classes</p>
+                        <p class="mb-1" id="about-point2-en"><i class="fa fa-arrow-right text-primary me-2"></i>{% trans 'Online Classes' %}</p>
+                        <p class="mb-1" id="about-point2-ar" style="display: none;"><i class="fa fa-arrow-right text-primary me-2"></i>دروس عبر الإنترنت</p>
                     </div>
                     <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>International Certificate</p>
+                        <p class="mb-0" id="about-point3-en"><i class="fa fa-arrow-right text-primary me-2"></i>{% trans 'International Certificate' %}</p>
+                        <p class="mb-0" id="about-point3-ar" style="display: none;"><i class="fa fa-arrow-right text-primary me-2"></i>شهادة دولية</p>
                     </div>
-                    {% comment %} <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Skilled Instructors</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Online Classes</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>International Certificate</p>
-                    </div> {% endcomment %}
                 </div>
-                <a class="btn btn-primary py-3 px-5 mt-2" href="{% url 'dash-about' %}">Read More</a>
+                <a class="btn btn-primary py-3 px-5 mt-2" href="{% url 'dash-about' %}" id="about-readmore-en">{% trans 'Read More' %}</a>
+                <a class="btn btn-primary py-3 px-5 mt-2" href="{% url 'dash-about' %}" id="about-readmore-ar" style="display: none;">اقرأ المزيد</a>
             </div>
         </div>
     </div>
 </div>
 <!-- About End -->
+
+
+
 <!-- Categories Start -->
 <div id="categories" class="container-xxl py-5 category">
     <div class="container">
         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h6 class="section-title bg-white text-center text-primary px-3">Categories</h6>
-            <h1 class="mb-5">Courses Categories</h1>
+            <h6 class="section-title bg-white text-center text-primary px-3" id="categories-title-en">{% trans 'Categories' %}</h6>
+            <h1 class="mb-5" id="categories-heading-en">{% trans 'Courses Categories' %}</h1>
+            <h1 class="mb-5" id="categories-heading-ar" style="display: none;">فئات الدورات</h1>
         </div>
         <div class="row g-3">
             <div class="col-lg-7 col-md-6">
@@ -193,8 +298,10 @@
                             <!-- Change the image path to use the static path -->
                             <img class="img-fluid" src="{% static 'img/cat-1.jpg' %}" alt="">
                             <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-                                <h5 class="m-0">Web Design</h5>
-                                <small class="text-primary">49 Courses</small>
+                                <h5 class="m-0" id="cat-webdesign-en">{% trans 'Web Design' %}</h5>
+                                <h5 class="m-0" id="cat-webdesign-ar" style="display: none;">تصميم المواقع</h5>
+                                <small class="text-primary" id="cat-webdesign-courses-en">49 Courses</small>
+                                <small class="text-primary" id="cat-webdesign-courses-ar" style="display: none;">49 دورة</small>
                             </div>
                         </a>
                     </div>
@@ -203,8 +310,10 @@
                             <!-- Change the image path to use the static path -->
                             <img class="img-fluid" src="{% static 'img/cat-2.jpg' %}" alt="">
                             <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-                                <h5 class="m-0">Graphic Design</h5>
-                                <small class="text-primary">49 Courses</small>
+                                <h5 class="m-0" id="cat-graphicdesign-en">{% trans 'Graphic Design' %}</h5>
+                                <h5 class="m-0" id="cat-graphicdesign-ar" style="display: none;">تصميم الجرافيك</h5>
+                                <small class="text-primary" id="cat-graphicdesign-courses-en">49 Courses</small>
+                                <small class="text-primary" id="cat-graphicdesign-courses-ar" style="display: none;">49 دورة</small>
                             </div>
                         </a>
                     </div>
@@ -213,8 +322,10 @@
                             <!-- Change the image path to use the static path -->
                             <img class="img-fluid" src="{% static 'img/cat-3.jpg' %}" alt="">
                             <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-                                <h5 class="m-0">Video Editing</h5>
-                                <small class="text-primary">49 Courses</small>
+                                <h5 class="m-0" id="cat-videoediting-en">{% trans 'Video Editing' %}</h5>
+                                <h5 class="m-0" id="cat-videoediting-ar" style="display: none;">تحرير الفيديو</h5>
+                                <small class="text-primary" id="cat-videoediting-courses-en">49 Courses</small>
+                                <small class="text-primary" id="cat-videoediting-courses-ar" style="display: none;">49 دورة</small>
                             </div>
                         </a>
                     </div>
@@ -225,8 +336,10 @@
                     <!-- Change the image path to use the static path -->
                     <img class="img-fluid position-absolute w-100 h-100" src="{% static 'img/cat-4.jpg' %}" alt="" style="object-fit: cover;">
                     <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-                        <h5 class="m-0">Online Marketing</h5>
-                        <small class="text-primary">49 Courses</small>
+                        <h5 class="m-0" id="cat-onlinemarketing-en">{% trans 'Online Marketing' %}</h5>
+                        <h5 class="m-0" id="cat-onlinemarketing-ar" style="display: none;">التسويق عبر الإنترنت</h5>
+                        <small class="text-primary" id="cat-onlinemarketing-courses-en">49 Courses</small>
+                        <small class="text-primary" id="cat-onlinemarketing-courses-ar" style="display: none;">49 دورة</small>
                     </div>
                 </a>
             </div>
@@ -234,103 +347,79 @@
     </div>
 </div>
 <!-- Categories End -->
-
-    <!-- Courses Start -->
-    <div id="courses" class="container-xxl py-5">
-        <div class="container">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h6 class="section-title bg-white text-center text-primary px-3">Courses</h6>
-                <h1 class="mb-5">Popular Courses</h1>
+<div id="courses" class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h6 class="section-title bg-white text-center text-primary px-3">Courses</h6>
+            <h1 class="mb-5" id="courses-title-en">Popular Courses</h1>
+            <h1 class="mb-5" id="courses-title-ar" style="display: none;">الدورات الشعبية</h1>
+        </div>
+        <div class="row g-4 justify-content-center">
+            <!-- Course 1 -->
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="course-item bg-light">
+                    <div class="position-relative overflow-hidden">
+                        <img class="img-fluid" src="{% static 'img/1.jpeg' %}" alt="">
+                        <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
+                            <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
+                            <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Join Now</a>
+                        </div>
+                    </div>
+                    <div class="text-center p-4 pb-0">
+                        <h5 class="mb-4" style="color: white;" id="course-1-title-en">The Art of Decision Making and Problem Solving</h5>
+                        <h5 class="mb-4" style="color: white;" id="course-1-title-ar" style="display: none;">فن اتخاذ القرارات وحل المشكلات</h5>
+                    </div>
+                    <div class="d-flex border-top" style="color: white;">
+                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-user-tie text-primary me-2"></i>Dr. Raed Husain</small>
+                        <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>30 Students</small>
+                    </div>
+                </div>
             </div>
-            <div class="row g-4 justify-content-center">
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="course-item bg-light">
-                        <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src="{% static 'img/course-1.jpg' %}" alt="">
-                            <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
-                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Join Now</a>
-                            </div>
-                        </div>
-                        <div class="text-center p-4 pb-0">
-                            {% comment %} <h3 class="mb-0">$149.00</h3> {% endcomment %}
-                            <div class="mb-3">
-                                {% comment %} <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small>(123)</small> {% endcomment %}
-                            </div>
-                            <h5 class="mb-4">course name</h5>
-                        </div>
-                        <div class="d-flex border-top">
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-user-tie text-primary me-2"></i>John Doe</small>
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-clock text-primary me-2"></i>1.49 Hrs</small>
-                            <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>30 Students</small>
+            <!-- Course 2 -->
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                <div class="course-item bg-light">
+                    <div class="position-relative overflow-hidden">
+                        <img class="img-fluid" src="{% static 'img/2.jpeg' %}" alt="">
+                        <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
+                            <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
+                            <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Join Now</a>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="course-item bg-light">
-                        <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src="{% static '/img/course-2.jpg' %}" alt="">
-                            <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
-                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Join Now</a>
-                            </div>
-                        </div>
-                        <div class="text-center p-4 pb-0">
-                            {% comment %} <h3 class="mb-0">$149.00</h3> {% endcomment %}
-                            <div class="mb-3">
-                                {% comment %} <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small>(123)</small> {% endcomment %}
-                            </div>
-                            <h5 class="mb-4">course name</h5>
-                        </div>
-                        <div class="d-flex border-top">
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-user-tie text-primary me-2"></i>John Doe</small>
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-clock text-primary me-2"></i>1.49 Hrs</small>
-                            <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>30 Students</small>
-                        </div>
+                    <div class="text-center p-4 pb-0">
+                        <h5 class="mb-4" style="color: white;" id="course-2-title-en">Small Business Marketing</h5>
+                        <h5 class="mb-4" style="color: white;" id="course-2-title-ar" style="display: none;">تسويق الأعمال الصغيرة</h5>
+                    </div>
+                    <div class="d-flex border-top" style="color: white;">
+                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-user-tie text-primary me-2"></i>Dr. Abdullah Aldousari</small>
+                        <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>30 Students</small>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="course-item bg-light">
-                        <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src="{% static 'img/course-3.jpg'%}" alt="">
-                            <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
-                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Join Now</a>
-                            </div>
+            </div>
+            <!-- Course 3 -->
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                <div class="course-item bg-light">
+                    <div class="position-relative overflow-hidden">
+                        <img class="img-fluid" src="{% static 'img/3.jpeg' %}" alt="">
+                        <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
+                            <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
+                            <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Join Now</a>
                         </div>
-                        <div class="text-center p-4 pb-0">
-                            {% comment %} <h3 class="mb-0">$149.00</h3> {% endcomment %}
-                            <div class="mb-3">
-                                {% comment %} <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small>(123)</small> {% endcomment %}
-                            </div>
-                            <h5 class="mb-4">course name</h5>
-                        </div>
-                        <div class="d-flex border-top">
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-user-tie text-primary me-2"></i>John Doe</small>
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-clock text-primary me-2"></i>1.49 Hrs</small>
-                            <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>30 Students</small>
-                        </div>
+                    </div>
+                    <div class="text-center p-4 pb-0">
+                        <h5 class="mb-4" style="color: white;" id="course-3-title-en">Introduction to Islamic Finance</h5>
+                        <h5 class="mb-4" style="color: white;" id="course-3-title-ar" style="display: none;">مقدمة في المالية الإسلامية</h5>
+                    </div>
+                    <div class="d-flex border-top" style="color: white;">
+                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-user-tie text-primary me-2"></i>Dr. Saud Althaqeb</small>
+                        <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>30 Students</small>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Courses End -->
+</div>
+
+
 
 
     {% comment %} <!-- Team Start -->
@@ -420,10 +509,13 @@
  {% endcomment %}
 <!-- Images Section --> 
 <div id="events" class="images-section">
-            <div class="text-center">
-                <h6 class="section-title bg-white text-center text-primary px-3">Testimonial</h6>
-                <h1 class="mb-5">Campus and Events</h1>
-            </div>
+    <div class="text-center">
+        <h6 id="testimonial-title-en" class="section-title bg-white text-center text-primary px-3" style="display: block;">Testimonial</h6>
+        <h6 id="testimonial-title-ar" class="section-title bg-white text-center text-primary px-3" style="display: none;">الشهادات</h6>
+    
+        <h1 id="testimonial-header-en" class="mb-5" style="display: block;">Campus and Events</h1>
+        <h1 id="testimonial-header-ar" class="mb-5" style="display: none;">الحرم الجامعي والفعاليات</h1>
+    </div>
     <!-- Advertisements Grid -->
     <div class="ads-container">
         <div class="row">
@@ -441,32 +533,55 @@
 </div>
 
 <!-- FAQ Section -->
+<!-- FAQ Section -->
 <div id="faqs" class="faq-section">
     <div class="text-center">
-        <h6 class="section-title bg-white text-center text-primary px-3">Testimonial</h6>
-        <h1 class="mb-5">FAQs</h1>
-    </div>    <div class="faq-content">
+        <h6 id="faq-title-en" class="section-title bg-white text-center text-primary px-3" style="display: block;">FAQs</h6>
+        <h6 id="faq-title-ar" class="section-title bg-white text-center text-primary px-3" style="display: none;">الأسئلة الشائعة</h6>
+
+        <h1 id="faq-header-en" class="mb-5" style="display: block;">Frequently Asked Questions</h1>
+        <h1 id="faq-header-ar" class="mb-5" style="display: none;">الأسئلة المتداولة</h1>
+    </div>
+    <div id="faq-content-en" class="faq-content" style="display: block; direction: ltr;">
         <p><strong>Q1:</strong> What are the conditions for field registration?</p>
         <p><strong>A:</strong> The student must have completed more than 90 units.</p>
-        
+
         <p><strong>Q2:</strong> What is the required rate for the field?</p>
         <p><strong>A:</strong> A GPA of 2.2 and above is required.</p>
-        
+
         <p><strong>Q3:</strong> How many units are needed to register for the field?</p>
         <p><strong>A:</strong> 90 units and above.</p>
-        
+
         <p><strong>Q4:</strong> How many hours is the field training?</p>
         <p><strong>A:</strong> 4 hours a day.</p>
-        
+
         <p><strong>Q5:</strong> What are the field training days for the first and second semesters?</p>
         <p><strong>A:</strong> Sunday, Tuesday, and Thursday.</p>
-        
+
         <p><strong>Q6:</strong> What are the field training days in the summer semester?</p>
         <p><strong>A:</strong> All days of the week.</p>
     </div>
-    
-</div>
 
+    <div id="faq-content-ar" class="faq-content" style="display: none; direction: rtl;">
+        <p><strong>س1:</strong> ما هي شروط التسجيل في الميدان؟</p>
+        <p><strong>ج:</strong> يجب أن يكون الطالب قد أكمل أكثر من 90 وحدة.</p>
+
+        <p><strong>س2:</strong> ما هو المعدل المطلوب للميدان؟</p>
+        <p><strong>ج:</strong> مطلوب GPA 2.2 وأعلى.</p>
+
+        <p><strong>س3:</strong> كم عدد الوحدات المطلوبة للتسجيل في الميدان؟</p>
+        <p><strong>ج:</strong> 90 وحدة وما فوق.</p>
+
+        <p><strong>س4:</strong> كم عدد ساعات التدريب الميداني؟</p>
+        <p><strong>ج:</strong> 4 ساعات في اليوم.</p>
+
+        <p><strong>س5:</strong> ما هي أيام التدريب الميداني للفصلين الأول والثاني؟</p>
+        <p><strong>ج:</strong> الأحد، الثلاثاء، والخميس.</p>
+
+        <p><strong>س6:</strong> ما هي أيام التدريب الميداني في الفصل الصيفي؟</p>
+        <p><strong>ج:</strong> جميع أيام الأسبوع.</p>
+    </div>
+</div>
 
 
 
@@ -516,90 +631,111 @@
     </div> {% endcomment %}
     <!-- Testimonial End -->
         
-
+    <div id="language-toggle" class="language-toggle">
+        <button onclick="setLanguage('en')" id="btn-en" class="btn btn-primary active">{% trans 'English' %}</button>
+        <button onclick="setLanguage('ar')" id="btn-ar" class="btn btn-primary">{% trans 'العربية' %}</button>
+      </div>
     <!-- Footer Start -->
-    <div  id='footer' class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-        <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3">Quick Link</h4>
-                    <a class="btn btn-link" href="#about">About Us</a>
-                    <a class="btn btn-link" href="#contact">Contact Us</a>
-                    <a class="btn btn-link" href="">Privacy Policy</a>
-                    <a class="btn btn-link" href="">Terms & Condition</a>
-                    <a class="btn btn-link" href="#faqs">FAQs & Help</a>
+<!-- Footer Section -->
+<div id='footer' class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5">
+        <div class="row g-5">
+            <!-- Quick Link Section -->
+            <div class="col-lg-3 col-md-6" id="footer-quick-link-en" style="text-align: left;">
+                <h4 class="text-white mb-3">Quick Link</h4>
+                <a class="btn btn-link" href="#about">About Us</a>
+                <a class="btn btn-link" href="#contact">Contact Us</a>
+                <a class="btn btn-link" href="">Privacy Policy</a>
+                <a class="btn btn-link" href="">Terms & Condition</a>
+                <a class="btn btn-link" href="#faqs">FAQs & Help</a>
+            </div>
+            <div class="col-lg-3 col-md-6" id="footer-quick-link-ar" style="text-align: right; display: none;">
+                <h4 class="text-white mb-3">روابط سريعة</h4>
+                <a class="btn btn-link" href="#about">من نحن</a>
+                <a class="btn btn-link" href="#contact">اتصل بنا</a>
+                <a class="btn btn-link" href="">سياسة الخصوصية</a>
+                <a class="btn btn-link" href="">الشروط والأحكام</a>
+                <a class="btn btn-link" href="#faqs">الأسئلة الشائعة والمساعدة</a>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="col-lg-3 col-md-6" style="color: white;">
+                <h4 class="text-white mb-3">Contact</h4>
+                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Sabah Al Salem University City, Kuwait</p>
+                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>24988625</p>
+                <p class="mb-2"><i class="fa fa-envelope me-3"></i>Osta@ku.edu.kw</p>
+                <div class="d-flex pt-2">
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3">Contact</h4>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Sabah Al Salem University City, Kuwait</p>
-                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>24988625</p>
-                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>Osta@ku.edu.kw</p>
-                    <div class="d-flex pt-2">
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+            </div>
+
+            <!-- Gallery Section -->
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">Gallery</h4>
+                <div class="row g-2 pt-2">
+                    <div class="col-4">
+                        <img class="img-fluid bg-light p-1" src="{% static 'img/course-1.jpg'%}" alt="">
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3">Gallery</h4>
-                    <div class="row g-2 pt-2">
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="{% static 'img/course-1.jpg'%}" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="{% static 'img/course-2.jpg'%}" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="{% static 'img/course-3.jpg'%}" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="{% static 'img/course-2.jpg'%}" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="{% static 'img/course-3.jpg'%}" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="{% static 'img/course-1.jpg'%}" alt="">
-                        </div>
+                    <div class="col-4">
+                        <img class="img-fluid bg-light p-1" src="{% static 'img/course-2.jpg'%}" alt="">
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3">Newsletter</h4>
-                    <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-                    <div class="position-relative mx-auto" style="max-width: 400px;">
-                        <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                    <div class="col-4">
+                        <img class="img-fluid bg-light p-1" src="{% static 'img/course-3.jpg'%}" alt="">
+                    </div>
+                    <div class="col-4">
+                        <img class="img-fluid bg-light p-1" src="{% static 'img/course-2.jpg'%}" alt="">
+                    </div>
+                    <div class="col-4">
+                        <img class="img-fluid bg-light p-1" src="{% static 'img/course-3.jpg'%}" alt="">
+                    </div>
+                    <div class="col-4">
+                        <img class="img-fluid bg-light p-1" src="{% static 'img/course-1.jpg'%}" alt="">
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="container">
-            <div class="copyright">
-                <div class="row">
-                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved.
 
-                        <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                        Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
-                    </div>
-                    <div class="col-md-6 text-center text-md-end">
-                        <div class="footer-menu">
-                            <a href="#home">Home</a>
-                            <a href="">Cookies</a>
-                            <a href="#faqs">Help</a>
-                            <a href="#faqs">FQAs</a>
-                        </div>
+            <!-- Newsletter Section -->
+            <div class="col-lg-3 col-md-6" style="color: white;">
+                <h4 class="text-white mb-3">Newsletter</h4>
+                <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+                <div class="position-relative mx-auto" style="max-width: 400px;">
+                    <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
+                    <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Copyright Section -->
+    <div class="container">
+        <div class="copyright">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved.
+                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <div class="footer-menu">
+                        <a href="#home">Home</a>
+                        <a href="">Cookies</a>
+                        <a href="#faqs">Help</a>
+                        <a href="#faqs">FQAs</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
     <!-- Footer End -->
 
 
     <!-- Back to Top -->
     <a href="#home" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
 
 
     <!-- JavaScript Libraries -->
@@ -615,4 +751,269 @@
     <script src="{% static 'js/caro.js'%}"></script>
 </body>
 
+
+<script>
+    // Function to switch language
+
+function setLanguage(lang) {
+    if (lang === 'en') {
+        // Show English content, hide Arabic content
+        document.getElementById('navbar-cba-en').style.display = 'inline';
+        document.getElementById('navbar-cba-ar').style.display = 'none';
+        document.getElementById('home-en').style.display = 'inline';
+        document.getElementById('home-ar').style.display = 'none';
+        document.getElementById('about-en').style.display = 'inline';
+        document.getElementById('about-ar').style.display = 'none';
+        document.getElementById('courses-en').style.display = 'inline';
+        document.getElementById('courses-ar').style.display = 'none';
+        document.getElementById('pages-en').style.display = 'inline';
+        document.getElementById('pages-ar').style.display = 'none';
+        document.getElementById('categories-en').style.display = 'inline';
+        document.getElementById('categories-ar').style.display = 'none';
+        document.getElementById('events-en').style.display = 'inline';
+        document.getElementById('events-ar').style.display = 'none';
+        document.getElementById('faqs-en').style.display = 'inline';
+        document.getElementById('faqs-ar').style.display = 'none';
+        document.getElementById('contact-en').style.display = 'inline';
+        document.getElementById('contact-ar').style.display = 'none';
+        document.getElementById('join-now-en').style.display = 'inline';
+        document.getElementById('join-now-ar').style.display = 'none';
+        document.getElementById('welcome-heading-en').style.display = 'block';
+        document.getElementById('welcome-heading-ar').style.display = 'none';
+        document.getElementById('welcome-text-en').style.display = 'block';
+        document.getElementById('welcome-text-ar').style.display = 'none';
+        document.getElementById('login-en').style.display = 'inline';
+        document.getElementById('login-ar').style.display = 'none';
+        document.getElementById('register-en').style.display = 'inline';
+        document.getElementById('register-ar').style.display = 'none';
+        document.getElementById('skilled-instructors-en').style.display = 'inline';
+        document.getElementById('skilled-instructors-ar').style.display = 'none';
+        document.getElementById('instructors-text-en').style.display = 'inline';
+        document.getElementById('instructors-text-ar').style.display = 'none';
+        document.getElementById('online-classes-en').style.display = 'inline';
+        document.getElementById('online-classes-ar').style.display = 'none';
+        document.getElementById('online-classes-text-en').style.display = 'inline';
+        document.getElementById('online-classes-text-ar').style.display = 'none';
+
+        document.getElementById('book-library-en').style.display = 'block';
+        document.getElementById('book-library-ar').style.display = 'none';
+        document.getElementById('book-library-text-en').style.display = 'block';
+        document.getElementById('book-library-text-ar').style.display = 'none';
+
+        document.getElementById('about-title-en').style.display = 'block';
+        document.getElementById('about-heading-en').style.display = 'block';
+        document.getElementById('about-heading-ar').style.display = 'none';
+        document.getElementById('about-text-en').style.display = 'block';
+        document.getElementById('about-text-ar').style.display = 'none';
+        document.getElementById('about-more-text-en').style.display = 'block';
+        document.getElementById('about-more-text-ar').style.display = 'none';
+        document.getElementById('about-point1-en').style.display = 'block';
+        document.getElementById('about-point1-ar').style.display = 'none';
+        document.getElementById('about-point2-en').style.display = 'block';
+        document.getElementById('about-point2-ar').style.display = 'none';
+        document.getElementById('about-point3-en').style.display = 'block';
+        document.getElementById('about-point3-ar').style.display = 'none';
+        document.getElementById('about-readmore-en').style.display = 'inline-block';
+        document.getElementById('about-readmore-ar').style.display = 'none';
+
+        // Show English content, hide Arabic content
+        document.getElementById('categories-title-en').style.display = 'block';
+        document.getElementById('categories-heading-en').style.display = 'block';
+        document.getElementById('categories-heading-ar').style.display = 'none';
+
+        document.getElementById('cat-webdesign-en').style.display = 'block';
+        document.getElementById('cat-webdesign-ar').style.display = 'none';
+        document.getElementById('cat-webdesign-courses-en').style.display = 'block';
+        document.getElementById('cat-webdesign-courses-ar').style.display = 'none';
+
+        document.getElementById('cat-graphicdesign-en').style.display = 'block';
+        document.getElementById('cat-graphicdesign-ar').style.display = 'none';
+        document.getElementById('cat-graphicdesign-courses-en').style.display = 'block';
+        document.getElementById('cat-graphicdesign-courses-ar').style.display = 'none';
+
+        document.getElementById('cat-videoediting-en').style.display = 'block';
+        document.getElementById('cat-videoediting-ar').style.display = 'none';
+        document.getElementById('cat-videoediting-courses-en').style.display = 'block';
+        document.getElementById('cat-videoediting-courses-ar').style.display = 'none';
+
+        document.getElementById('cat-onlinemarketing-en').style.display = 'block';
+        document.getElementById('cat-onlinemarketing-ar').style.display = 'none';
+        document.getElementById('cat-onlinemarketing-courses-en').style.display = 'block';
+        document.getElementById('cat-onlinemarketing-courses-ar').style.display = 'none';
+
+        // Show English content, hide Arabic content
+        document.getElementById('courses-title-en').style.display = 'block';
+        document.getElementById('courses-title-ar').style.display = 'none';
+        
+        document.getElementById('course-1-title-en').style.display = 'block';
+        document.getElementById('course-1-title-ar').style.display = 'none';
+        
+        document.getElementById('course-2-title-en').style.display = 'block';
+        document.getElementById('course-2-title-ar').style.display = 'none';
+        
+        document.getElementById('course-3-title-en').style.display = 'block';
+        document.getElementById('course-3-title-ar').style.display = 'none';
+
+        // Show English content, hide Arabic content
+        document.getElementById('testimonial-title-en').style.display = 'block';
+        document.getElementById('testimonial-title-ar').style.display = 'none';
+        
+        document.getElementById('testimonial-header-en').style.display = 'block';
+        document.getElementById('testimonial-header-ar').style.display = 'none';
+    
+        document.getElementById('faq-title-en').style.display = 'block';
+        document.getElementById('faq-title-ar').style.display = 'none';
+
+        document.getElementById('faq-header-en').style.display = 'block';
+        document.getElementById('faq-header-ar').style.display = 'none';
+
+        document.getElementById('faq-content-en').style.display = 'block';
+        document.getElementById('faq-content-ar').style.display = 'none';
+
+        document.getElementById('footer-quick-link-en').style.display = 'block';
+        document.getElementById('footer-quick-link-ar').style.display = 'none';
+
+        // Toggle button active states
+        document.getElementById('btn-en').classList.add('active');
+        document.getElementById('btn-ar').classList.remove('active');
+    } else if (lang === 'ar') {
+        // Show Arabic content, hide English content
+        document.getElementById('navbar-cba-en').style.display = 'none';
+        document.getElementById('navbar-cba-ar').style.display = 'inline';
+        document.getElementById('home-en').style.display = 'none';
+        document.getElementById('home-ar').style.display = 'inline';
+        document.getElementById('about-en').style.display = 'none';
+        document.getElementById('about-ar').style.display = 'inline';
+        document.getElementById('courses-en').style.display = 'none';
+        document.getElementById('courses-ar').style.display = 'inline';
+        document.getElementById('pages-en').style.display = 'none';
+        document.getElementById('pages-ar').style.display = 'inline';
+        document.getElementById('categories-en').style.display = 'none';
+        document.getElementById('categories-ar').style.display = 'inline';
+        document.getElementById('events-en').style.display = 'none';
+        document.getElementById('events-ar').style.display = 'inline';
+        document.getElementById('faqs-en').style.display = 'none';
+        document.getElementById('faqs-ar').style.display = 'inline';
+        document.getElementById('contact-en').style.display = 'none';
+        document.getElementById('contact-ar').style.display = 'inline';
+        document.getElementById('join-now-en').style.display = 'none';
+        document.getElementById('join-now-ar').style.display = 'inline';
+
+        document.getElementById('welcome-heading-en').style.display = 'none';
+        document.getElementById('welcome-heading-ar').style.display = 'block';
+        document.getElementById('welcome-text-en').style.display = 'none';
+        document.getElementById('welcome-text-ar').style.display = 'block';
+        document.getElementById('login-en').style.display = 'none';
+        document.getElementById('login-ar').style.display = 'inline';
+        document.getElementById('register-en').style.display = 'none';
+        document.getElementById('register-ar').style.display = 'inline';
+        document.getElementById('skilled-instructors-en').style.display = 'none';
+        document.getElementById('skilled-instructors-ar').style.display = 'inline';
+        document.getElementById('instructors-text-en').style.display = 'none';
+        document.getElementById('instructors-text-ar').style.display = 'inline';
+        document.getElementById('online-classes-en').style.display = 'none';
+        document.getElementById('online-classes-ar').style.display = 'inline';
+        document.getElementById('online-classes-text-en').style.display = 'none';
+        document.getElementById('online-classes-text-ar').style.display = 'inline';
+
+        document.getElementById('book-library-en').style.display = 'none';
+        document.getElementById('book-library-ar').style.display = 'block';
+        document.getElementById('book-library-text-en').style.display = 'none';
+        document.getElementById('book-library-text-ar').style.display = 'block';
+
+        document.getElementById('about-title-en').style.display = 'none';
+        document.getElementById('about-heading-en').style.display = 'none';
+        document.getElementById('about-heading-ar').style.display = 'block';
+        document.getElementById('about-text-en').style.display = 'none';
+        document.getElementById('about-text-ar').style.display = 'block';
+        document.getElementById('about-more-text-en').style.display = 'none';
+        document.getElementById('about-more-text-ar').style.display = 'block';
+        document.getElementById('about-point1-en').style.display = 'none';
+        document.getElementById('about-point1-ar').style.display = 'block';
+        document.getElementById('about-point2-en').style.display = 'none';
+        document.getElementById('about-point2-ar').style.display = 'block';
+        document.getElementById('about-point3-en').style.display = 'none';
+        document.getElementById('about-point3-ar').style.display = 'block';
+        document.getElementById('about-readmore-en').style.display = 'none';
+        document.getElementById('about-readmore-ar').style.display = 'inline-block';
+
+        // Show Arabic content, hide English content
+        document.getElementById('categories-title-en').style.display = 'none';
+        document.getElementById('categories-heading-en').style.display = 'none';
+        document.getElementById('categories-heading-ar').style.display = 'block';
+
+        document.getElementById('cat-webdesign-en').style.display = 'none';
+        document.getElementById('cat-webdesign-ar').style.display = 'block';
+        document.getElementById('cat-webdesign-courses-en').style.display = 'none';
+        document.getElementById('cat-webdesign-courses-ar').style.display = 'block';
+
+        document.getElementById('cat-graphicdesign-en').style.display = 'none';
+        document.getElementById('cat-graphicdesign-ar').style.display = 'block';
+        document.getElementById('cat-graphicdesign-courses-en').style.display = 'none';
+        document.getElementById('cat-graphicdesign-courses-ar').style.display = 'block';
+
+        document.getElementById('cat-videoediting-en').style.display = 'none';
+        document.getElementById('cat-videoediting-ar').style.display = 'block';
+        document.getElementById('cat-videoediting-courses-en').style.display = 'none';
+        document.getElementById('cat-videoediting-courses-ar').style.display = 'block';
+
+        document.getElementById('cat-onlinemarketing-en').style.display = 'none';
+        document.getElementById('cat-onlinemarketing-ar').style.display = 'block';
+        document.getElementById('cat-onlinemarketing-courses-en').style.display = 'none';
+        document.getElementById('cat-onlinemarketing-courses-ar').style.display = 'block';
+
+        // Show Arabic content, hide English content
+        document.getElementById('courses-title-en').style.display = 'none';
+        document.getElementById('courses-title-ar').style.display = 'block';
+        
+        document.getElementById('course-1-title-en').style.display = 'none';
+        document.getElementById('course-1-title-ar').style.display = 'block';
+        
+        document.getElementById('course-2-title-en').style.display = 'none';
+        document.getElementById('course-2-title-ar').style.display = 'block';
+        
+        document.getElementById('course-3-title-en').style.display = 'none';
+        document.getElementById('course-3-title-ar').style.display = 'block';
+
+
+        document.getElementById('testimonial-title-en').style.display = 'none';
+        document.getElementById('testimonial-title-ar').style.display = 'block';
+        
+        document.getElementById('testimonial-header-en').style.display = 'none';
+        document.getElementById('testimonial-header-ar').style.display = 'block';
+        
+
+        // Show Arabic content, hide English content
+        document.getElementById('faq-title-en').style.display = 'none';
+        document.getElementById('faq-title-ar').style.display = 'block';
+
+        document.getElementById('faq-header-en').style.display = 'none';
+        document.getElementById('faq-header-ar').style.display = 'block';
+
+        document.getElementById('faq-content-en').style.display = 'none';
+        document.getElementById('faq-content-ar').style.display = 'block';
+
+
+        document.getElementById('footer-quick-link-en').style.display = 'none';
+        document.getElementById('footer-quick-link-ar').style.display = 'block';
+
+        // Toggle button active states
+        document.getElementById('btn-ar').classList.add('active');
+        document.getElementById('btn-en').classList.remove('active');
+    }
+}
+</script>
+<style>
+    .language-toggle {
+        position: fixed;
+        bottom: 250px;
+        left: 99%;
+        transform: translateX(-50%);
+        z-index: 1000; /* Ensure the buttons are above other content */
+      }
+      
+      .language-toggle .btn {
+        margin: 1px; /* Space between buttons */
+      }
+    </style>
 </html>

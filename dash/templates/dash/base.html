@@ -68,32 +68,16 @@
         <div class="form-group">
             <input class="form-control" type="text" name="cgpa" placeholder="CGPA" value="{{ request.GET.cgpa }}">
         </div>
-        {% comment %} <div class="form-group">
+       <div class="form-group">
             <select class="form-control" name="dept">
                 <option value="">Department</option>
                 {% for value, label in user.profile.DEPT_CHOICES %}
                 <option value="{{ value }}" {% if request.GET.dept == value %}selected{% endif %}>{{ label }}</option>
                 {% endfor %}
             </select>
-        </div> {% endcomment %}
+        </div> 
 
 
-        <div class="form-group">
-            <button class="btn btn-primary dropdown-toggle" type="button" id="deptDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                Select Departments
-            </button>
-            <div class="dropdown-menu p-3" aria-labelledby="deptDropdown">
-                <select class="form-control" name="dept" multiple style="width: 100%;">
-                    {% for value, label in user.profile.DEPT_CHOICES %}
-                    
-                    <option value="{{ value }}" {% if value in selected_depts %}selected{% endif %}>
-                        {{ label }}
-                    </option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-        
 
 
 
@@ -113,11 +97,15 @@
         <div class="form-group">
             <input class="form-control" type="text" name="roll_no" placeholder="Roll No" value="{{ request.GET.roll_no }}">
         </div>
+
+
+            
+
         <button class="btn btn-outline-light w-100" type="submit">Search</button>
         {% endif %}
 
         {% if user.profile.role == 'student' or user.profile.role == 'alumni' %}
-        <div class="form-group">
+        {% comment %} <div class="form-group">
             <input class="form-control" type="text" name="event_subject" placeholder="Query" value="{{ request.GET.event_subject }}">
         </div>
         <div class="form-group">
@@ -127,7 +115,38 @@
             <input class="form-control" type="text" name="venue" placeholder="Event Venue" value="{{ request.GET.venue }}">
         </div>
         <button class="btn btn-outline-light w-100" type="submit">Search</button>
+        {% endif %} {% endcomment %}
+        <div class="form-group">
+            <label for="search-type" style="color: white;">Search in:</label>
+            <select id="search-type" class="form-control">
+                <option value="trainingcourses">Training Courses</option>
+                <option value="jobs">Jobs</option>
+            </select>
+        </div>
+    
+        <!-- Training Courses Form -->
+        <div id="training-courses-form">
+            <div class="form-group">
+                <input class="form-control" type="text" name="event_subject" placeholder="Query" value="{{ request.GET.event_subject }}">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="Semester" placeholder="Semester" value="{{ request.GET.semester }}">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="venue" placeholder="Event Venue" value="{{ request.GET.venue }}">
+            </div>
+        </div>
+    
+        <!-- Jobs Form -->
+        <div id="jobs-form" style="display: none;">
+            <div class="form-group">
+                <input class="form-control" type="text" name="query" placeholder="Query" value="{{ request.GET.query }}">
+            </div>
+        </div>
+    
+        <button class="btn btn-outline-light w-100" type="submit">Search</button>
         {% endif %}
+        
     </form>
 </div>
                     <!-- Profile Icon with Dropdown -->
@@ -200,6 +219,34 @@
                 var searchForm = document.getElementById('searchForm');
                 searchForm.style.display = (searchForm.style.display === 'none' || searchForm.style.display === '') ? 'block' : 'none';
             });
+
+                document.addEventListener("DOMContentLoaded", function () {
+                    const searchType = document.getElementById("search-type");
+                    const trainingCoursesForm = document.getElementById("training-courses-form");
+                    const jobsForm = document.getElementById("jobs-form");
+            
+                    searchType.addEventListener("change", function () {
+                        if (searchType.value === "trainingcourses") {
+                            trainingCoursesForm.style.display = "block";
+                            jobsForm.style.display = "none";
+                        } else if (searchType.value === "jobs") {
+                            trainingCoursesForm.style.display = "none";
+                            jobsForm.style.display = "block";
+                        }
+                    });
+                });
+    
+
+                document.addEventListener('DOMContentLoaded', function () {
+                    // Clear the query parameters from the URL without reloading the page
+                    if (window.location.search) {
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                    }
+                });
+
+
+
+
         </script>
     </body>
 
