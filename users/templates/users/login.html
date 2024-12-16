@@ -40,22 +40,29 @@
             </div>
     </form> {% endcomment %}
 
-    <form method="POST">
+    {% comment %} <form method="POST">
       {% csrf_token %}
       <fieldset class="form-group">
           <legend class="border-bottom mb-4 py-1 fadeIn second">Log In</legend>
           {{ form.username }}
           {{ form.password }}
-          <div class="form-group">
-              {% comment %} <label for="id_role" class="form-label fadeIn third">Select Role</label> {% endcomment %}
-              {{ form.role }}
-          </div>
+
       </fieldset>
       <div class="form-group">
           <button class="btn btn-outline-info fadeIn fourth" type="submit">Login</button>
       </div>
-  </form>
-
+  </form> {% endcomment %}
+  <form method="POST">
+    {% csrf_token %}
+    <fieldset class="form-group">
+        <legend class="border-bottom mb-4 py-1 fadeIn second">Log In</legend>
+        <input type="text" name="username" placeholder="Enter Username" class="form-control">
+        <input type="password" name="password" placeholder="Enter Password" class="form-control">
+    </fieldset>
+    <div class="form-group">
+        <button class="btn btn-outline-info fadeIn fourth" type="submit">Login</button>
+    </div>
+</form>
     <!-- Remind SignUP -->
     <div id="formFooter" class="border-top">
             <small class="text-muted">

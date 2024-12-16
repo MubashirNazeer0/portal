@@ -21,6 +21,7 @@ FFI = 'Finance and Financial Institutions'
 GA = 'General Administration'
 AC = 'Accounting'
 OM = 'Operations Management'
+ECON='Economics'
 NONE = ''
 
 
@@ -42,6 +43,7 @@ class Profile(models.Model):
         ('GA', 'GENERAL ADMINISTRATION'),
         ('AC', 'ACCOUNTING'),
         ('OM', 'OPERATIONS MANAGEMENT'),
+        ('ECON','ECONOMICS')
     )
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -114,7 +116,7 @@ class Student(models.Model):
     """
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
     dept = models.CharField(max_length=120, choices=Profile.DEPT_CHOICES, default='NONE', null=True)
-    registration_number = models.CharField(max_length=12, blank=True, null=True)
+    id_number = models.CharField(max_length=12, blank=True, null=True)
     cgpa = models.FloatField(null=False,blank=True,default=0.0)
     passout_year = models.PositiveIntegerField(
         default=current_year(),
@@ -148,7 +150,7 @@ class Alumni(models.Model):
         ('OM', 'OPERATIONS MANAGEMENT'),
     )
     dept = models.CharField(max_length=120, choices=Profile.DEPT_CHOICES, default='NONE', null=True)
-    registration_number = models.CharField(max_length=12, blank=True, null=True)
+    id_number = models.CharField(max_length=12, blank=True, null=True)
     cgpa = models.FloatField(null=False,blank=True,default=0.0)
     passout_year = models.PositiveIntegerField(
         default=current_year(),
