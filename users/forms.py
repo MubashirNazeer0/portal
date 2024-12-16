@@ -114,7 +114,7 @@ class StudentForm(forms.ModelForm):
 
     class Meta:
         model = Student
-        fields = ['dept', 'registration_number', 'cgpa', 'passout_year','cv']
+        fields = ['dept', 'id_number', 'cgpa', 'passout_year','cv']
 
 
 class AlumniForm(forms.ModelForm):
@@ -124,7 +124,7 @@ class AlumniForm(forms.ModelForm):
 
     class Meta:
         model = Alumni
-        fields = ['dept', 'registration_number', 'cgpa', 'passout_year', 'current_job', 'current_company','cv']
+        fields = ['dept', 'id_number', 'cgpa', 'passout_year', 'current_job', 'current_company','cv']
 
 
 

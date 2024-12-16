@@ -7,7 +7,8 @@ from django.urls import reverse
 
 class Post(models.Model):
     title = models.CharField(max_length=100)
-    content = models.TextField()
+    # content = models.TextField()
+    content = models.ImageField(upload_to='jobposters/')
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 

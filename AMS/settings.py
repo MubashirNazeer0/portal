@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mathfilters',
+    "babel",
 ]
 
 MIDDLEWARE = [
@@ -66,6 +67,8 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.locale.LocaleMiddleware',  # Must be placed after CommonMiddleware
+
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -116,25 +119,25 @@ DATABASES = {
     }
 }
 
-# import os
-# from urllib.parse import urlparse
+import os
+from urllib.parse import urlparse
 
-# # Get the Postgres URL from the environment variables
-# DATABASE_URL = os.getenv('DATABASE_URL')  # Set this on Render's environment variables
+# Get the Postgres URL from the environment variables
+DATABASE_URL = os.getenv('DATABASE_URL')  # Set this on Render's environment variables
 
-# # Parse the database URL
-# url = urlparse(DATABASE_URL)
+# Parse the database URL
+url = urlparse(DATABASE_URL)
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'cba',  # Database name (cba)
-#         'USER': 'cba_user',  # Username (cba_user)
-#         'PASSWORD': 'fh5nZMsHcK3q4Ai4Ho13v0EoZ1quegja',  # Password (fh5nZMsHcK3q4Ai4Ho13v0EoZ1quegja)
-#         'HOST': 'dpg-ct2s7gl2ng1s73brqvk0-a',  # Hostname (dpg-ct2s7gl2ng1s73brqvk0-a)
-#         'PORT': '5432',  # Port (5432)
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'cba',  # Database name (cba)
+        'USER': 'cba_user',  # Username (cba_user)
+        'PASSWORD': 'fh5nZMsHcK3q4Ai4Ho13v0EoZ1quegja',  # Password (fh5nZMsHcK3q4Ai4Ho13v0EoZ1quegja)
+        'HOST': 'dpg-ct2s7gl2ng1s73brqvk0-a',  # Hostname (dpg-ct2s7gl2ng1s73brqvk0-a)
+        'PORT': '5432',  # Port (5432)
+    }
+}
 
 
 
@@ -215,3 +218,26 @@ INTERNAL_IPS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # MEDIA_URL = ''
 MEDIA_URL = '/media/'
+
+
+
+
+# settings.py
+
+LANGUAGE_CODE = 'en-us'  # Default language
+USE_I18N = True  # Enable internationalization
+USE_L10N = True  # Enable localized formatting
+USE_TZ = True  # Enable timezone support
+
+# Supported languages
+LANGUAGES = [
+    ('en', 'English'),
+    ('ar', 'Arabic'),
+]
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+# Path to the locale directory
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',  # This works because BASE_DIR is now a Path object
+]

@@ -366,44 +366,44 @@ def update_password(request, *args, **kwargs):
     return render(request, 'users/profile.html', context=context)
 
 
-# class CustomLoginView(LoginView):
-#     template_name = 'users/login.html'
-#     redirect_authenticated_user = True  # Redirect authenticated users to home
-
-#     def form_valid(self, form):
-#         # Call the parent form_valid method to authenticate the user
-#         user = form.get_user()
-#         profile = Profile.objects.get(user=user)
-        
-#         # Check if the user's profile is approved
-#         if profile.status == 'approved':
-#             # If approved, log the user in and redirect to home
-#             login(self.request, user)
-#             return redirect('dash-home')  # Or the page where you want the user to go
-#         else:
-#             # If not approved, show an error message and redirect to login page
-#             messages.error(self.request, 'Your account is not approved yet. Please contact the admin.')
-#             return redirect('login')  # Stay on the login page
 class CustomLoginView(LoginView):
     template_name = 'users/login.html'
-    redirect_authenticated_user = True
-    form_class = CustomAuthenticationForm  # Use the custom form
+    redirect_authenticated_user = True  # Redirect authenticated users to home
 
     def form_valid(self, form):
+        # Call the parent form_valid method to authenticate the user
         user = form.get_user()
         profile = Profile.objects.get(user=user)
-        selected_role = form.cleaned_data.get('role')
-
+        
+        # Check if the user's profile is approved
         if profile.status == 'approved':
-            if profile.role == selected_role:
-                login(self.request, user)
-                return redirect('dash-home')  # Redirect to the appropriate page
-            else:
-                messages.error(self.request, f"Incorrect role selected for user {user.username}.")
-                return redirect('login')
+            # If approved, log the user in and redirect to home
+            login(self.request, user)
+            return redirect('dash-home')  # Or the page where you want the user to go
         else:
+            # If not approved, show an error message and redirect to login page
             messages.error(self.request, 'Your account is not approved yet. Please contact the admin.')
-            return redirect('login')
+            return redirect('login')  # Stay on the login page
+# class CustomLoginView(LoginView):
+#     template_name = 'users/login.html'
+#     redirect_authenticated_user = True
+#     form_class = CustomAuthenticationForm  # Use the custom form
+
+#     def form_valid(self, form):
+#         user = form.get_user()
+#         profile = Profile.objects.get(user=user)
+#         # selected_role = form.cleaned_data.get('role')
+
+#         if profile.status == 'approved':
+#             # if profile.role == selected_role:
+#             login(self.request, user)
+#             return redirect('dash-home')  # Redirect to the appropriate page
+#             # else:
+#             #     messages.error(self.request, f"Incorrect role selected for user {user.username}.")
+#             #     return redirect('login')
+#         else:
+#             messages.error(self.request, 'Your account is not approved yet. Please contact the admin.')
+#             return redirect('login')
        
         
         
