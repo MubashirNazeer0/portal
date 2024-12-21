@@ -57,7 +57,7 @@ class Profile(models.Model):
     work_location = models.CharField(max_length=100,blank=True,null=True)
     company = models.CharField(max_length=200,blank=True,null=True)
     passout_year = models.PositiveIntegerField(default=current_year(), validators=[MinValueValidator(1984), max_value_current_year])
-    event_ids = models.TextField(default=None, null=True)
+    event_ids = models.TextField(default=None, null=True, blank=True)
     STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('approved', 'Approved'),

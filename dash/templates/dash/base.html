@@ -129,9 +129,19 @@
             <div class="form-group">
                 <input class="form-control" type="text" name="event_subject" placeholder="Query" value="{{ request.GET.event_subject }}">
             </div>
-            <div class="form-group">
+            {% comment %} <div class="form-group">
                 <input class="form-control" type="text" name="Semester" placeholder="Semester" value="{{ request.GET.semester }}">
+            </div> {% endcomment %}
+            <div class="form-group">
+                <select class="form-control" name="semester">
+                    <option value="" disabled selected>Select Semester</option>
+                    <option value="Fall" {% if request.GET.semester == "Fall" %}selected{% endif %}>Fall</option>
+                    <option value="Spring" {% if request.GET.semester == "Spring" %}selected{% endif %}>Spring</option>
+                    <option value="Summer" {% if request.GET.semester == "Summer" %}selected{% endif %}>Summer</option>
+                </select>
             </div>
+
+
             <div class="form-group">
                 <input class="form-control" type="text" name="venue" placeholder="Event Venue" value="{{ request.GET.venue }}">
             </div>

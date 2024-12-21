@@ -33,7 +33,16 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col md-6 ">
+
+                    <div class="col md-4 ">
+                        <div class="float-sm-left">
+                            <small class="text-muted">
+                                <span style="font-size: 2em; color: darkslategray;">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </span>
+                                <b>Semester : <a href="{% if user_logged %}{% url 'user_profile' item.user_id %}{% else %} # {% endif %}">{{ item.semester }}</a></b>
+                            </small>
+                        </div>
                         <div class="float-sm-right">
                             <small class="text-muted">
                                 <span style="font-size: 2em; color: darkslategray;">

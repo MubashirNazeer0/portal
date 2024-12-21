@@ -236,16 +236,17 @@ class DeleteSpecificEvent(View):
     def post(self, request, *args, **kwargs):
         id = request.POST.get('event_id')
         event = Events.objects.get(id = id)
-        for user in Profile.objects.all():
-            if(user.event_ids != None):
-                jsonDec = json.decoder.JSONDecoder()
-                ids = jsonDec.decode(user.event_ids)
-                try:
-                    ids.remove(int(id))
-                    user.event_ids = json.dumps(ids)
-                    user.save()
-                except Exception:
-                    print('event not present in the list')
-        send_delete_notif(id)
+        
+        # for user in Profile.objects.all():
+        #     if(user.event_ids != None):
+        #         jsonDec = json.decoder.JSONDecoder()
+        #         ids = jsonDec.decode(user.event_ids)
+        #         try:
+        #             ids.remove(int(id))
+        #             user.event_ids = json.dumps(ids)
+        #             user.save()
+        #         except Exception:
+        #             print('event not present in the list')
+        # send_delete_notif(id)
         event.delete()
         return HttpResponseRedirect("/view_events")

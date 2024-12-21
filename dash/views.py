@@ -247,12 +247,12 @@ def search_view(request):
     # Get parameters from the request
     query = request.GET.get('query', '').strip()
     event_subject = request.GET.get('event_subject', '').strip()
-    semester = request.GET.get('Semester', '').strip()
+    semester = request.GET.get('semester')
     venue = request.GET.get('venue', '').strip()
     cgpa = request.GET.get('cgpa', '').strip()
     depts = request.GET.getlist('dept')  # Fetch multiple departments
     roll_no = request.GET.get('roll_no', '').strip()
-
+    print(semester)
     # Initialize results
     search_results_students = Student.objects.none()
     search_results_alumni = Alumni.objects.none()
@@ -300,7 +300,7 @@ def search_view(request):
         'search_results_events': search_results_events,
         'search_results_posts': search_results_posts,
     }
-    print(context)
+    # print (context)
     return render(request, 'dash/search_list.html', context)
 
 
