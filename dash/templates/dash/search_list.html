@@ -5,7 +5,8 @@
     <!-- Students Section -->
     {% if search_results_students.exists %}
         <h2 class="mb-4 text-center">Students</h2>
-        <div class="row">
+        <div class="row justify-content-md-center">
+            <div class="col-md-6">
             {% for student in search_results_students %}
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
@@ -27,12 +28,14 @@
                 </div>
             {% endfor %}
         </div>
+        </div>
     {% endif %}
 
     <!-- Alumni Section -->
     {% if search_results_alumni.exists %}
         <h2 class="mb-4 text-center">Alumni</h2>
-        <div class="row">
+        <div class="row justify-content-md-center">
+            <div class="col-md-6">
             {% for alumni in search_results_alumni %}
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
@@ -56,12 +59,106 @@
                 </div>
             {% endfor %}
         </div>
+        </div>
     {% endif %}
+
+    <style>
+        /* CSS to resize event image */
+        .event-img {
+            width: 3in;      /* Set width to 3 inches */
+            height: 3in;     /* Set height to 3 inches */
+            object-fit: cover;  /* Ensures the image keeps its aspect ratio while filling the area */
+        }
+    </style>
 
     <!-- Events Section -->
     {% if search_results_events.exists %}
         <h2 class="mb-4 text-center">Events</h2>
-        <div class="row">
+
+        <div class="row justify-content-md-center">
+            <div class="col-md-6">
+        {% for item in search_results_events %}
+        <div class="card">
+            <div class="card-header container-fluid is-pulled-right">
+                <div class="row">
+                    <div class="col md-6">
+                        <span style="font-size: 2em; color: Dodgerblue;">
+                            <i class="fas fa-calendar"></i>
+                        </span>
+                        {{ item.event_date }}
+                        <div class="float-sm-right">
+                            <span style="font-size: 2em; color: Tomato;">
+                                <i class="fab fa-periscope"></i>
+                            </span>
+                            {{item.venue}}<br><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col md-4 ">
+                        <div class="float-sm-left">
+                            <small class="text-muted">
+                                <span style="font-size: 2em; color: darkslategray;">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </span>
+                                <b>Semester : <a href="{% if user_logged %}{% url 'user_profile' item.user_id %}{% else %} # {% endif %}">{{ item.semester }}</a></b>
+                            </small>
+                        </div>
+                        <div class="float-sm-right">
+                            <small class="text-muted">
+                                <span style="font-size: 2em; color: darkslategray;">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                                <b>Organizer : <a href="{% if user_logged %}{% url 'user_profile' item.user_id %}{% else %} # {% endif %}">{{ item.organizer_name }}</a></b>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col sm-8">
+                        <b>Event</b> : {{ item.event_subject }} <br> <br>
+                    </div>
+                    {% if user_logged %}
+                    {% if user_logged.is_superuser %}
+                    <div class="float-sm-right">
+                            <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{% url 'event-update' item.id %}">Update</a>
+                    </div>
+                    <div class="float-sm-right">
+                        {% if user_logged.is_superuser %}
+                            <form action="{% url 'delete-event' %}" onsubmit="return confirm('Are you sure you want to delete this event?')" method="post" >
+                                {% csrf_token %}
+                            <input type="hidden" name="event_id" value="{{ item.id }}">
+                            <input type="submit" class="btn btn-danger btn-sm mt-1 mb-1" value="Delete" />
+                            </form>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                </div>
+                <b><i>RSVP</i></b> : {{ item.email }} <br> <br>
+                {{ item.text }}<br> <br>
+
+                {% if item.image %}
+                <div class="event-image" class="float-sm-left">
+                    <img src="{{ item.image.url }}" alt="Event Image" class="img-fluid event-img">
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+
+
+
+
+        {% comment %} <div class="row">
             {% for event in search_results_events %}
                 <div class="col-md-6 mb-4">
                     <div class="card">
@@ -89,7 +186,7 @@
                 </div>
             {% endfor %}
         </div>
-    {% endif %}
+    {% endif %} {% endcomment %}
 
     <!-- Posts Section -->
     {% if search_results_posts.exists %}

@@ -119,25 +119,25 @@ DATABASES = {
     }
 }
 
-import os
-from urllib.parse import urlparse
+# import os
+# from urllib.parse import urlparse
 
-# Get the Postgres URL from the environment variables
-DATABASE_URL = os.getenv('DATABASE_URL')  # Set this on Render's environment variables
+# # Get the Postgres URL from the environment variables
+# DATABASE_URL = os.getenv('DATABASE_URL')  # Set this on Render's environment variables
 
-# Parse the database URL
-url = urlparse(DATABASE_URL)
+# # Parse the database URL
+# url = urlparse(DATABASE_URL)
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'cba',  # Database name (cba)
-        'USER': 'cba_user',  # Username (cba_user)
-        'PASSWORD': 'fh5nZMsHcK3q4Ai4Ho13v0EoZ1quegja',  # Password (fh5nZMsHcK3q4Ai4Ho13v0EoZ1quegja)
-        'HOST': 'dpg-ct2s7gl2ng1s73brqvk0-a',  # Hostname (dpg-ct2s7gl2ng1s73brqvk0-a)
-        'PORT': '5432',  # Port (5432)
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'cba',  # Database name (cba)
+#         'USER': 'cba_user',  # Username (cba_user)
+#         'PASSWORD': 'fh5nZMsHcK3q4Ai4Ho13v0EoZ1quegja',  # Password (fh5nZMsHcK3q4Ai4Ho13v0EoZ1quegja)
+#         'HOST': 'dpg-ct2s7gl2ng1s73brqvk0-a',  # Hostname (dpg-ct2s7gl2ng1s73brqvk0-a)
+#         'PORT': '5432',  # Port (5432)
+#     }
+# }
 
 
 

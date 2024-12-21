@@ -6,9 +6,17 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Events(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    semester = models.PositiveIntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(10)],default=1,
-        help_text="1-10"
+    SEMESTER_CHOICES = [
+        ('Fall', 'Fall'),
+        ('Spring', 'Spring'),
+        ('Summer', 'Summer'),
+    ]
+
+    semester = models.CharField(
+        max_length=10,
+        choices=SEMESTER_CHOICES,
+        default='Fall',
+        help_text="Select the semester (Fall, Spring, or Summer)"
     )
     date_added = models.DateField(auto_now=True)
     event_date = models.DateField(default=datetime.date.today)
