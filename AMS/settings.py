@@ -112,32 +112,32 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),  # This will create a file named db.sqlite3 in your project root
-#     }
-# }
-
-import os
-from urllib.parse import urlparse
-
-# Get the Postgres URL from the environment variables
-DATABASE_URL = os.getenv('DATABASE_URL')  # Set this on Render's environment variables
-
-# Parse the database URL
-url = urlparse(DATABASE_URL)
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'cba',  # Database name (cba)
-        'USER': 'cba_user',  # Username (cba_user)
-        'PASSWORD': 'fh5nZMsHcK3q4Ai4Ho13v0EoZ1quegja',  # Password (fh5nZMsHcK3q4Ai4Ho13v0EoZ1quegja)
-        'HOST': 'dpg-ct2s7gl2ng1s73brqvk0-a',  # Hostname (dpg-ct2s7gl2ng1s73brqvk0-a)
-        'PORT': '5432',  # Port (5432)
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),  # This will create a file named db.sqlite3 in your project root
     }
 }
+
+# import os
+# from urllib.parse import urlparse
+
+# # Get the Postgres URL from the environment variables
+# DATABASE_URL = os.getenv('DATABASE_URL')  # Set this on Render's environment variables
+
+# # Parse the database URL
+# url = urlparse(DATABASE_URL)
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'cba',  # Database name (cba)
+#         'USER': 'cba_user',  # Username (cba_user)
+#         'PASSWORD': 'fh5nZMsHcK3q4Ai4Ho13v0EoZ1quegja',  # Password (fh5nZMsHcK3q4Ai4Ho13v0EoZ1quegja)
+#         'HOST': 'dpg-ct2s7gl2ng1s73brqvk0-a',  # Hostname (dpg-ct2s7gl2ng1s73brqvk0-a)
+#         'PORT': '5432',  # Port (5432)
+#     }
+# }
 
 
 
