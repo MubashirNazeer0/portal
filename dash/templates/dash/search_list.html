@@ -5,8 +5,7 @@
     <!-- Students Section -->
     {% if search_results_students.exists %}
         <h2 class="mb-4 text-center">Students</h2>
-        <div class="row justify-content-md-center">
-            <div class="col-md-6">
+        <div class="row">
             {% for student in search_results_students %}
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
@@ -28,14 +27,12 @@
                 </div>
             {% endfor %}
         </div>
-        </div>
     {% endif %}
 
     <!-- Alumni Section -->
     {% if search_results_alumni.exists %}
         <h2 class="mb-4 text-center">Alumni</h2>
-        <div class="row justify-content-md-center">
-            <div class="col-md-6">
+        <div class="row">
             {% for alumni in search_results_alumni %}
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
@@ -59,7 +56,6 @@
                 </div>
             {% endfor %}
         </div>
-        </div>
     {% endif %}
 
     <style>
@@ -75,8 +71,7 @@
     {% if search_results_events.exists %}
         <h2 class="mb-4 text-center">Events</h2>
 
-        <div class="row justify-content-md-center">
-            <div class="col-md-6">
+        
         {% for item in search_results_events %}
         <div class="card">
             <div class="card-header container-fluid is-pulled-right">
