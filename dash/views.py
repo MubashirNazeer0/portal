@@ -250,21 +250,26 @@ def search_view(request):
     semester = request.GET.get('semester')
     venue = request.GET.get('venue', '').strip()
     cgpa = request.GET.get('cgpa', '').strip()
+    print('CGPA is ---------------------->>>>>>>>', cgpa)
     depts = request.GET.getlist('dept')  # Fetch multiple departments
+    if len(depts) == 1 and depts[0].strip() == '':
+        depts = []  # Convert to an empty list
+    print('length of depts', len(depts))
     roll_no = request.GET.get('roll_no', '').strip()
     print(semester)
     # Initialize results
-    search_results_students = Student.objects.none()
-    search_results_alumni = Alumni.objects.none()
-    search_results_events = Events.objects.none()
-    search_results_posts = Post.objects.none()
+    if not ( cgpa or depts or roll_no):
+        search_results_students = None
+        search_results_alumni = None
+    search_results_events = None
+    search_results_posts = None
 
     # Determine what to search based on the inputs
     if query and not (event_subject or semester or venue):
         # Search in posts if only `query` is provided
         search_results_posts = Post.objects.filter(title__icontains=query) | Post.objects.filter(content__icontains=query)
 
-    elif event_subject or semester or venue:
+    if event_subject or semester or venue:
         # Search in events if any event-specific fields are provided
         search_results_events = Events.objects.all()
 
@@ -278,19 +283,49 @@ def search_view(request):
             search_results_events = search_results_events.filter(venue__icontains=venue)
 
     # Optional: Add logic for student and alumni searches based on other parameters
+    # if cgpa:
+    #     search_results_students = Student.objects.filter(cgpa__gte=cgpa)
+    #     print('search result studentss--------->>>>>', search_results_students)
+    #     search_results_alumni = Alumni.objects.filter(cgpa__gte=cgpa)
+    #     print('search result alumniss---------->>>>>', search_results_alumni)
+    # print('after if the search result studentss--------->>>>>', search_results_students)
+    # print('after if the search result alumniss---------->>>>>', search_results_alumni)
+    # if depts:
+    #     print('depts is ---------------------->>>>>>>>', depts)
+    #     search_results_students = search_results_students.filter(dept__in=depts)
+    #     search_results_alumni = search_results_alumni.filter(dept__in=depts)
+
+    # if roll_no:
+    #     search_results_students = search_results_students.filter(registration_number__exact=roll_no)
+    #     search_results_alumni = search_results_alumni.filter(registration_number__exact=roll_no)
+    # Create Q objects for filtering dynamically
+    student_filters = Q()
+    alumni_filters = Q()
+
     if cgpa:
-        search_results_students = Student.objects.filter(cgpa__gte=cgpa)
-        search_results_alumni = Alumni.objects.filter(cgpa__gte=cgpa)
+        cgpa_filter = Q(cgpa__gte=cgpa)
+        student_filters &= cgpa_filter
+        alumni_filters &= cgpa_filter
 
     if depts:
-        search_results_students = search_results_students.filter(dept__in=depts)
-        search_results_alumni = search_results_alumni.filter(dept__in=depts)
+        dept_filter = Q(dept__in=depts)
+        student_filters &= dept_filter
+        alumni_filters &= dept_filter
 
     if roll_no:
-        search_results_students = search_results_students.filter(registration_number__exact=roll_no)
-        search_results_alumni = search_results_alumni.filter(registration_number__exact=roll_no)
+        roll_no_filter = Q(registration_number__exact=roll_no)
+        student_filters &= roll_no_filter
+        alumni_filters &= roll_no_filter
+    # print('student filters is ---------------------->>>>>>>>', student_filters)
+    # Apply filters to the database queries
+    search_results_students = Student.objects.filter(student_filters)
+    search_results_alumni = Alumni.objects.filter(alumni_filters)
 
+    # Debugging logs
+    # print('Filtered students from database:', search_results_students)
+    # print('Filtered alumni from database:', search_results_alumni)
     # Prepare context
+    # print('search result alumni before contencr is --------->>>>>', search_results_alumni)
     context = {
         'title': 'Search Results',
         'form': form,
@@ -300,6 +335,7 @@ def search_view(request):
         'search_results_events': search_results_events,
         'search_results_posts': search_results_posts,
     }
+    # print('context is ---------------------->>>>>>>>', context)
     # print (context)
     return render(request, 'dash/search_list.html', context)
 
