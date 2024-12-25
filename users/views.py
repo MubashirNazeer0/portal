@@ -410,3 +410,4 @@ class CustomLoginView(LoginView):
 def custom_logout(request):
     auth_views.LogoutView.as_view()(request)
     return redirect('welcome')  # Replace 'welcome' with the name of your welcome page's URL
+

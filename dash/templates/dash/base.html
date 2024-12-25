@@ -27,16 +27,21 @@
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'dash-home' %}">Home</a>
+                        <a class="nav-link" href="{% url 'dash-home' %}">Main Page</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'advertisement_list' %}">Advertisements</a>
                     </li>
+                    {%if user.profile.role != 'employer' %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'view_events' %}">Training Course</a>
                     </li>
+                    {%endif%}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'dash-about' %}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'dash-faq' %}">FAQ</a>
                     </li>
                     {% if user.is_superuser %}
                     <li class="nav-item">
