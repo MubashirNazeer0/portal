@@ -19,6 +19,9 @@ def welcome(request):
     advertisements = Advertisement.objects.all()
     return render(request, 'users/welcome.html', {'advertisements': advertisements})
 
+def faq(request):
+    return render(request, 'dash/faq.html')
+
 def home(request):
     context = {
         'posts': Post.objects.all()

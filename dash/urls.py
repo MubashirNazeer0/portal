@@ -18,6 +18,7 @@ urlpatterns = [
 
     path('manage_pending_profiles/', views.manage_pending_profiles, name='manage_pending_profiles'),
     path('home/', PostListView.as_view(), name='dash-home'),
+    path('faq/', views.faq, name='dash-faq'),
     path('welcome/', views.welcome, name='welcome'),
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
     path('post/new/', PostCreateView.as_view(), name='post-create'),
