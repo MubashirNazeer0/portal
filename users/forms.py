@@ -111,10 +111,12 @@ class StudentForm(forms.ModelForm):
     passout_year = forms.TypedChoiceField(
         coerce=int, choices=year_choices, initial=current_year, label="Graduation Year"  # Changed label here
     )
-
+    AdmissionYear = forms.TypedChoiceField(
+        coerce=int, choices=year_choices, initial=current_year, label="Admission Year"  # Changed label here
+    )
     class Meta:
         model = Student
-        fields = ['dept', 'id_number', 'cgpa', 'passout_year','cv']
+        fields = ['dept', 'id_number', 'cgpa','AdmissionYear', 'passout_year','cv']
 
 
 class AlumniForm(forms.ModelForm):
