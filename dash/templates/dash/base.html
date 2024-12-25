@@ -51,16 +51,14 @@
 <!-- Search Button and Dropdown -->
 {% comment %} <button class="btn btn-outline-light ml-1" type="button" id="searchToggle" >Search</button> {% endcomment %}
 
-<button class="btn btn-outline-light ml-1" 
-        type="button" 
-        id="searchToggle" 
-        style="position: absolute; right: 30%; transform: translateX(-20%); width: 150px;">
-    Search
-</button>
-
-
-
-
+    {% if user.profile.role != 'employer' %}
+        <button class="btn btn-outline-light ml-1" 
+                type="button" 
+                id="searchToggle" 
+                style="position: absolute; right: 30%; transform: translateX(-20%); width: 150px;">
+            Search
+        </button>
+    {% endif %}
 
 <div id="searchForm" class="dropdown-menu dropdown-menu-right search-form" style="display: none;">
     <form action="{% url 'search-users' %}" method="GET" class="p-3">
@@ -76,17 +74,6 @@
                 {% endfor %}
             </select>
         </div> 
-
-
-
-
-
-
-
-
-
-
-
 
         <div class="form-group">
             <input class="form-control" type="text" name="current_job" placeholder="Current Job" value="{{ request.GET.current_job }}">
@@ -105,17 +92,7 @@
         {% endif %}
 
         {% if user.profile.role == 'student' or user.profile.role == 'alumni' %}
-        {% comment %} <div class="form-group">
-            <input class="form-control" type="text" name="event_subject" placeholder="Query" value="{{ request.GET.event_subject }}">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="text" name="Semester" placeholder="Semester" value="{{ request.GET.semester }}">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="text" name="venue" placeholder="Event Venue" value="{{ request.GET.venue }}">
-        </div>
-        <button class="btn btn-outline-light w-100" type="submit">Search</button>
-        {% endif %} {% endcomment %}
+
         <div class="form-group">
             <label for="search-type" style="color: white;">Search in:</label>
             <select id="search-type" class="form-control">
@@ -208,6 +185,11 @@
             </div>
             {% block content %}{% endblock %}
         </div>
+
+
+
+
+
 
         <!-- Optional JavaScript -->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -390,3 +372,17 @@
             font-size: 5px;
         } {% endcomment %}
     </style>
+
+
+
+        {% comment %} <div class="form-group">
+            <input class="form-control" type="text" name="event_subject" placeholder="Query" value="{{ request.GET.event_subject }}">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" name="Semester" placeholder="Semester" value="{{ request.GET.semester }}">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" name="venue" placeholder="Event Venue" value="{{ request.GET.venue }}">
+        </div>
+        <button class="btn btn-outline-light w-100" type="submit">Search</button>
+        {% endif %} {% endcomment %}

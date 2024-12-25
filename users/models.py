@@ -122,6 +122,10 @@ class Student(models.Model):
         default=current_year(),
         validators=[MinValueValidator(1984), max_value_current_year],
     )
+    AdmissionYear = models.PositiveIntegerField(
+        default=current_year(),
+        validators=[MinValueValidator(1984), max_value_current_year],
+    )    
     cv = models.FileField(upload_to='student_cvs/', null=True, blank=True)
     STATUS_CHOICES = [
         ('pending', 'Pending'),
