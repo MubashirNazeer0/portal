@@ -3,81 +3,74 @@
 <div class="row justify-content-md-center">
     <div class="col-md-8">
         <main role="main" class="container">
-            {% if user.profile.role == 'employer' %}
-                <!-- FAQ Section -->
-                {% comment %} <div id="faqs" class="faq-section">
-                    <div class="text-center">
-                        <h1 class="mb-5">FAQs</h1>
-                    </div>
-                    <div class="faq-content">
-                        <p><strong>Q1:</strong> What are the conditions for field registration?</p>
-                        <p><strong>A:</strong> The student must have completed more than 90 units.</p>
-                        
-                        <p><strong>Q2:</strong> What is the required rate for the field?</p>
-                        <p><strong>A:</strong> A GPA of 2.2 and above is required.</p>
-                        
-                        <p><strong>Q3:</strong> How many units are needed to register for the field?</p>
-                        <p><strong>A:</strong> 90 units and above.</p>
-                        
-                        <p><strong>Q4:</strong> How many hours is the field training?</p>
-                        <p><strong>A:</strong> 4 hours a day.</p>
-                        
-                        <p><strong>Q5:</strong> What are the field training days for the first and second semesters?</p>
-                        <p><strong>A:</strong> Sunday, Tuesday, and Thursday.</p>
-                        
-                        <p><strong>Q6:</strong> What are the field training days in the summer semester?</p>
-                        <p><strong>A:</strong> All days of the week.</p>
-                    </div>
-                </div> {% endcomment %}
-            {% else %}
-                {% for post in posts %}
-                    <article class="media content-section">
-                        <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}" alt="Profile Pic">
-                        <div class="media-body">
-                            <div class="article-metadata">
-                                <a class="mr-2" href="{% url 'user_profile' post.author.id %}">{{ post.author }}</a>
-                                <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
-                            </div>
-                            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-                            {% comment %} <p class="article-image">{{ post.content }}</p> {% endcomment %}
-                            <img src="{{ post.content.url }}" alt="Post Image" style="width: 100%; max-height: 300px; object-fit: cover; margin-top: 15px;">
+            {% if user.is_authenticated and user.profile.role == 'employer' %}
 
+            <div class="container my-5">
+                <br>
+                <br>
+                    <!-- Students Section -->
+                    {% if search_results.search_results_students.exists %}
+                        <h2 class="mb-4 text-center">Students</h2>
+                        <div class="row">
+                            {% for student in search_results.search_results_students %}
+                                <div class="col-md-4 mb-4">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <img src="{{ student.profile.image.url }}" class="rounded-circle mx-auto d-block mb-3" alt="Profile Picture" width="80" height="80">
+                                            <h5 class="card-title text-center">{{ student.profile.user.first_name }} {{ student.profile.user.last_name }}</h5>
+                                            <p class="card-text">
+                                                <strong>Email:</strong> {{ student.profile.user.email }}<br>
+                                                <strong>Department:</strong> {{ student.dept }}<br>
+                                                <strong>Registration Number:</strong> {{ student.registration_number }}<br>
+                                                <strong>CGPA:</strong> {{ student.cgpa }}<br>
+                                                <strong>Passout Year:</strong> {{ student.passout_year }}
+                                            </p>
+                                            <div class="text-center">
+                                                <a href="{{ student.cv.url }}" class="btn btn-primary btn-sm" download>Download CV</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
                         </div>
-                    </article>
-                {% endfor %}
-            {% endif %}
+                    {% endif %}
+                
+                    <!-- Alumni Section -->
+                    {% if search_results.search_results_alumni.exists %}
+                        <h2 class="mb-4 text-center">Alumni</h2>
+                        <div class="row">
+                            {% for alumni in search_results.search_results_alumni %}
+                                <div class="col-md-4 mb-4">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <img src="{{ alumni.profile.image.url }}" class="rounded-circle mx-auto d-block mb-3" alt="Profile Picture" width="80" height="80">
+                                            <h5 class="card-title text-center">{{ alumni.profile.user.first_name }} {{ alumni.profile.user.last_name }}</h5>
+                                            <p class="card-text">
+                                                <strong>Email:</strong> {{ alumni.profile.user.email }}<br>
+                                                <strong>Department:</strong> {{ alumni.dept }}<br>
+                                                <strong>Registration Number:</strong> {{ alumni.registration_number }}<br>
+                                                <strong>CGPA:</strong> {{ alumni.cgpa }}<br>
+                                                <strong>Passout Year:</strong> {{ alumni.passout_year }}<br>
+                                                <strong>Current Job:</strong> {{ alumni.current_job }}<br>
+                                                <strong>Current Company:</strong> {{ alumni.current_company }}
+                                            </p>
+                                            <div class="text-center">
+                                                <a href="{{ alumni.cv.url }}" class="btn btn-primary btn-sm" download>Download CV</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                
+
         </main>
     </div>
 </div>
     <!-- Search Bar for Employers -->
-    {% if user.is_authenticated and user.profile.role == 'employer' %}
-    {% comment %} <div class="search-bar-container p-3">
-        <form action="{% url 'search-users' %}" method="GET">
-            <div class="form-group">
-                <input class="form-control" type="text" name="cgpa" placeholder="CGPA" value="{{ request.GET.cgpa }}">
-            </div>
-            <div class="form-group">
-                <select class="form-control" name="dept">
-                    <option value="">Department</option>
-                    {% for value, label in user.profile.DEPT_CHOICES %}
-                    <option value="{{ value }}" {% if request.GET.dept == value %}selected{% endif %}>{{ label }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="text" name="current_job" placeholder="Current Job" value="{{ request.GET.current_job }}">
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="text" name="current_company" placeholder="Current Company" value="{{ request.GET.current_company }}">
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="text" name="roll_no" placeholder="Roll No" value="{{ request.GET.roll_no }}">
-            </div>
-            <button class="btn btn-primary w-100" type="submit">Search</button>
-        </form>
-    </div> {% endcomment %}
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#searchModal" 
-    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem; padding: 1.5rem 3rem; background:rgb(37, 43, 97); border: none; box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1); transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;">
+    style="position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem; padding: 1.5rem 6rem; background:rgb(37, 43, 97); border: none; box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1); transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;">
 Search
 </button>
 
@@ -119,7 +112,12 @@ Search
 </div>
 {% endif %}
 <style>
-
+    /* CSS to resize event image */
+    .event-img {
+        width: 3in;      /* Set width to 3 inches */
+        height: 3in;     /* Set height to 3 inches */
+        object-fit: cover;  /* Ensures the image keeps its aspect ratio while filling the area */
+    }
     .btn-primary {
         background: #040a45;
         border: none;

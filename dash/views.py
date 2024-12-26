@@ -15,26 +15,53 @@ from events.models import Events
 from users.forms import EmployerSearchForm, StudentAlumniSearchForm
 
 # Create your views here.
+# def welcome(request):
+#     advertisements = Advertisement.objects.all()
+#     alumni=Alumni.objects.all()
+#     students=Student.objects.all()
+#     return render(request, 'users/welcome.html', {'advertisements': advertisements})
 def welcome(request):
     advertisements = Advertisement.objects.all()
-    return render(request, 'users/welcome.html', {'advertisements': advertisements})
 
+    return render(request, 'users/welcome.html')
 def faq(request):
     return render(request, 'dash/faq.html')
 
 def home(request):
+    print('inside the home')
+
     context = {
         'posts': Post.objects.all()
     }
+    
     return render(request, 'dash/home.html', context)
 
 
+# class PostListView(LoginRequiredMixin, ListView):
+#     model = Post
+#     template_name = 'dash/home.html'  # <app>/<model>_<viewtype>.html
+#     context_object_name = 'posts'
+#     ordering = ['-date_posted']
 class PostListView(LoginRequiredMixin, ListView):
     model = Post
     template_name = 'dash/home.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
     ordering = ['-date_posted']
 
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get the default context
+        context = super().get_context_data(**kwargs)
+
+        # Add additional context data
+        alumni = Alumni.objects.all()
+        students = Student.objects.all()
+        context['search_results'] = {
+            'search_results_alumni': alumni,
+            'search_results_students': students
+        }
+
+        print('search_results', context['search_results'])  # Debugging output
+        return context
 
 class PostDetailView(LoginRequiredMixin, DetailView):
     model = Post
