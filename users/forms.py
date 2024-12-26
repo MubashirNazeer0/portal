@@ -87,8 +87,10 @@ class ProfileRegisterForm(forms.ModelForm):
 class EmployerForm(forms.ModelForm):
     class Meta:
         model = Employer
-        fields = ['company_name', 'work_location', 'job_role']
-
+        fields = ['company_name', 'work_location', 'job_role','Description']
+        labels = {
+            'job_role': 'Status',  # Rename 'job_role' to 'Status'
+        }
 # Student-specific form
 # class StudentForm(forms.ModelForm):
 #     dept = forms.ChoiceField(choices=Profile.DEPT_CHOICES, label="Department")

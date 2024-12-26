@@ -98,6 +98,7 @@ class Employer(models.Model):
     company_name = models.CharField(max_length=200)
     work_location = models.CharField(max_length=200)
     job_role = models.CharField(max_length=100, blank=True, null=True)
+    Description=models.TextField(max_length=800,blank=True,null=True)
     STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('approved', 'Approved'),

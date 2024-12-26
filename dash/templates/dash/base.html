@@ -32,7 +32,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'advertisement_list' %}">Advertisements</a>
                     </li>
-                    {%if user.profile.role != 'employer' %}
+                    {%if user.profile.role != 'employer' and not user.is_superuser %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'view_events' %}">Training Course</a>
                     </li>
@@ -43,11 +43,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'dash-faq' %}">FAQ</a>
                     </li>
-                    {% if user.is_superuser %}
+                    {% comment %} {% if user.is_superuser %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'view_feedback' %}">Feedback</a>
                     </li>
-                    {% endif %}
+                    {% endif %} {% endcomment %}
                 </ul>
 
                 {% if user.is_authenticated %}
@@ -141,6 +141,13 @@
         
     </form>
 </div>
+            {%if user.is_superuser%}
+            <div class="ring-icon" style="position: relative;">
+                <i class="fas fa-bell" style="font-size: 1.5rem; color: white; cursor: pointer;"></i>
+                <!-- Add a badge for notifications (optional) -->
+                <span class="badge bg-danger" style="position: absolute; top: 0; right: 0; transform: translate(50%, -50%);">3</span>
+            </div>
+            {%endif%}
                     <!-- Profile Icon with Dropdown -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle profile-icon" href="#" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
