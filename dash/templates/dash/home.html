@@ -4,6 +4,11 @@
     <div class="col-md-8">
         <main role="main" class="container">
             {% if user.is_authenticated and user.profile.role == 'employer' %}
+            <!-- Search Bar for Employers -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#searchModal" 
+            style="position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem; padding: 1.5rem 6rem; background:rgb(37, 43, 97); border: none; box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1); transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;">
+            Search
+            </button>
 
             <div class="container my-5">
                 <br>
@@ -64,15 +69,26 @@
                         </div>
                     {% endif %}
                 
-
-        </main>
-    </div>
-</div>
-    <!-- Search Bar for Employers -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#searchModal" 
-    style="position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem; padding: 1.5rem 6rem; background:rgb(37, 43, 97); border: none; box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1); transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;">
-Search
-</button>
+                    </div>
+                    {% else %}
+                    {% for post in posts %}
+                    <article class="media content-section">
+                        <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}" alt="Profile Pic">
+                        <div class="media-body">
+                            <div class="article-metadata">
+                                <a class="mr-2" href="{% url 'user_profile' post.author.id %}">{{ post.author }}</a>
+                                <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+                            </div>
+                            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+                    
+                            <!-- Display the post image -->
+                            {% if post.content %}
+                            <img class="img-fluid article-post-img" src="{{ post.content.url }}" alt="{{ post.title }}">
+                            {% endif %}
+                        </div>
+                    </article>
+                    {% endfor %}
+    
 
 <!-- Modal Structure -->
 <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
@@ -110,7 +126,13 @@ Search
         </div>
     </div>
 </div>
+
+</main>
+</div>
+</div>
 {% endif %}
+
+
 <style>
     /* CSS to resize event image */
     .event-img {
