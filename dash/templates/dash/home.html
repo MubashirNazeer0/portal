@@ -5,10 +5,63 @@
         <main role="main" class="container">
             {% if user.is_authenticated and user.profile.role == 'employer' %}
             <!-- Search Bar for Employers -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#searchModal" 
+            {% comment %} <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#searchModal" 
             style="position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem; padding: 1.5rem 6rem; background:rgb(37, 43, 97); border: none; box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1); transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;">
             Search
+            </button> {% endcomment %}
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#searchModal" 
+            style="
+                position: relative; 
+                display: block; 
+                margin: 5rem auto; 
+                font-size: 2rem; 
+                padding: 1.5rem 6rem; 
+                background: rgb(37, 43, 97); 
+                border: none; 
+                box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1); 
+                z-index: 10; 
+                transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;">
+                Search
             </button>
+            <!-- Modal Structure -->
+            <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="searchModalLabel">Search</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{% url 'search-users' %}" method="GET">
+                                <div class="form-group mb-3">
+                                    <input class="form-control" type="text" name="cgpa" placeholder="CGPA" value="{{ request.GET.cgpa }}">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <select class="form-control" name="dept">
+                                        <option value="">Department</option>
+                                        {% for value, label in user.profile.DEPT_CHOICES %}
+                                        <option value="{{ value }}" {% if request.GET.dept == value %}selected{% endif %}>{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <input class="form-control" type="text" name="current_job" placeholder="Current Job" value="{{ request.GET.current_job }}">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <input class="form-control" type="text" name="current_company" placeholder="Current Company" value="{{ request.GET.current_company }}">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <input class="form-control" type="text" name="roll_no" placeholder="Roll No" value="{{ request.GET.roll_no }}">
+                                </div>
+                                <button class="btn btn-primary w-100" type="submit">Search</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
 
             <div class="container my-5">
                 <br>
@@ -69,63 +122,27 @@
                         </div>
                     {% endif %}
                 
+            </div>
+            {% else %}
+            {% for post in posts %}
+            <article class="media content-section">
+                <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}" alt="Profile Pic">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <a class="mr-2" href="{% url 'user_profile' post.author.id %}">{{ post.author }}</a>
+                        <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
                     </div>
-                    {% else %}
-                    {% for post in posts %}
-                    <article class="media content-section">
-                        <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}" alt="Profile Pic">
-                        <div class="media-body">
-                            <div class="article-metadata">
-                                <a class="mr-2" href="{% url 'user_profile' post.author.id %}">{{ post.author }}</a>
-                                <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
-                            </div>
-                            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-                    
-                            <!-- Display the post image -->
-                            {% if post.content %}
-                            <img class="img-fluid article-post-img" src="{{ post.content.url }}" alt="{{ post.title }}">
-                            {% endif %}
-                        </div>
-                    </article>
-                    {% endfor %}
+                    <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+            
+                    <!-- Display the post image -->
+                    {% if post.content %}
+                    <img class="img-fluid article-post-img" src="{{ post.content.url }}" alt="{{ post.title }}">
+                    {% endif %}
+                </div>
+            </article>
+            {% endfor %}
     
 
-<!-- Modal Structure -->
-<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="searchModalLabel">Search</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="{% url 'search-users' %}" method="GET">
-                    <div class="form-group mb-3">
-                        <input class="form-control" type="text" name="cgpa" placeholder="CGPA" value="{{ request.GET.cgpa }}">
-                    </div>
-                    <div class="form-group mb-3">
-                        <select class="form-control" name="dept">
-                            <option value="">Department</option>
-                            {% for value, label in user.profile.DEPT_CHOICES %}
-                            <option value="{{ value }}" {% if request.GET.dept == value %}selected{% endif %}>{{ label }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-group mb-3">
-                        <input class="form-control" type="text" name="current_job" placeholder="Current Job" value="{{ request.GET.current_job }}">
-                    </div>
-                    <div class="form-group mb-3">
-                        <input class="form-control" type="text" name="current_company" placeholder="Current Company" value="{{ request.GET.current_company }}">
-                    </div>
-                    <div class="form-group mb-3">
-                        <input class="form-control" type="text" name="roll_no" placeholder="Roll No" value="{{ request.GET.roll_no }}">
-                    </div>
-                    <button class="btn btn-primary w-100" type="submit">Search</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
 </main>
 </div>
